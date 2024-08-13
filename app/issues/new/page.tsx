@@ -1,10 +1,13 @@
-import { TextField } from "@radix-ui/themes";
-import React from "react";
+"use client";
+
+import { Button, TextArea, TextField } from "@radix-ui/themes";
 
 const NewIssuePage = () => {
   return (
-    <div>
-      <TextField.Root></TextField.Root>
+    <div className="max-w-xl space-y-3">
+      <TextField.Root placeholder="Title" />
+      <TextArea placeholder="Description.." />
+      <Button>Submit new Issue</Button>
     </div>
   );
 };
