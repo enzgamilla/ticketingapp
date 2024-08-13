@@ -8,6 +8,7 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createTicketSchema } from "@/app/validationSchema";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 type TicketForm = z.infer<typeof createTicketSchema>;
 
@@ -41,21 +42,13 @@ const NewIssuePage = () => {
         })}
       >
         <TextField.Root placeholder="Title" {...register("title")} size="2" />
-        {errors.title && (
-          <Text color="red" as="p" size="1">
-            {errors.title.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <TextArea
           placeholder="Description.."
           {...register("description")}
           size="3"
         />
-        {errors.description && (
-          <Text color="red" as="p" size="1">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Submit new Issue</Button>
       </form>
     </div>
