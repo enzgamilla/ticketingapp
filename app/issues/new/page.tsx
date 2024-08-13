@@ -9,11 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { createTicketSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
+import Spinner from "@/app/components/Spinner";
 
 type TicketForm = z.infer<typeof createTicketSchema>;
 
 const NewIssuePage = () => {
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -23,6 +25,17 @@ const NewIssuePage = () => {
     resolver: zodResolver(createTicketSchema),
   });
 
+  const handleSubmitForm = handleSubmit(async (data) => {
+    try {
+      setSubmitting(true);
+      await axios.post("/api/issues", data);
+      router.push("/issues");
+    } catch (error) {
+      setSubmitting(false);
+      setError("An Unexpected Error Occured.");
+    }
+  });
+
   return (
     <div className="max-w-xl">
       {error && (
@@ -30,17 +43,7 @@ const NewIssuePage = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setError("An Unexpected Error Occured.");
-          }
-        })}
-      >
+      <form className="space-y-3" onSubmit={handleSubmitForm}>
         <TextField.Root placeholder="Title" {...register("title")} size="2" />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <TextArea
@@ -49,7 +52,9 @@ const NewIssuePage = () => {
           size="3"
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit new Issue</Button>
+        <Button disabled={submitting}>
+          Submit new Issue {submitting && <Spinner />}
+        </Button>
       </form>
     </div>
   );
