@@ -12,7 +12,7 @@ const StatusBadge = ({ status }: Props) => {
         status === "OPEN" ? "red" : status === "IN_PROGRESS" ? "orange" : "jade"
       }
       variant="soft"
-      radius="full"
+      radius="large"
     >
       {status === "OPEN"
         ? "Open"
