@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
-import { z } from "zod";
 import { createTicketSchema } from "@/app/validationSchema";
 
 export async function POST(request: NextRequest) {
