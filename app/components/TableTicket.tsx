@@ -21,13 +21,10 @@ const TableTicket = ({ tickets }: TicketProps) => {
         <Table.Row>
           <Table.ColumnHeaderCell>Title</Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell className="hidden md:table-cell">
-            Description
-          </Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell className="hidden md:table-cell">
             Status
           </Table.ColumnHeaderCell>
           <Table.ColumnHeaderCell className="hidden md:table-cell">
-            Date & Time Closed
+            Created
           </Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
@@ -40,9 +37,6 @@ const TableTicket = ({ tickets }: TicketProps) => {
               <div className="block md:hidden">
                 {<StatusBadge status={ticket.status} />}
               </div>
-            </Table.Cell>
-            <Table.Cell className="hidden md:table-cell">
-              {ticket.description}
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
               {<StatusBadge status={ticket.status} />}
