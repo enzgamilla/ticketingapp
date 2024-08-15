@@ -6,7 +6,7 @@ const TicketLoadingPage = () => {
   const loadinItem = [1, 2, 3, 4, 5];
   return (
     <>
-      <Skeleton width="5rem" height="5rem" />
+      <Skeleton width="6rem" height="2rem" mb="2" />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
