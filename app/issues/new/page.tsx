@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -10,6 +10,12 @@ import { createTicketSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
+import dynamic from "next/dynamic";
+import "easymde/dist/easymde.min.css";
+
+const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 type TicketForm = z.infer<typeof createTicketSchema>;
 
@@ -20,6 +26,7 @@ const NewIssuePage = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<TicketForm>({
     resolver: zodResolver(createTicketSchema),
@@ -46,11 +53,14 @@ const NewIssuePage = () => {
       <form className="space-y-3" onSubmit={handleSubmitForm}>
         <TextField.Root placeholder="Title" {...register("title")} size="2" />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
-        <TextArea
-          placeholder="Description.."
-          {...register("description")}
-          size="3"
-        />
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <SimpleMDE placeholder="Description.." {...field} />
+          )}
+        ></Controller>
+
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={submitting}>
           Submit new Issue {submitting && <Spinner />}
