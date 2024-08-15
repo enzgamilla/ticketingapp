@@ -1,6 +1,6 @@
 import prisma from "@/prisma/client";
 import React from "react";
-import TableTicket from "../components/TableTicket";
+import { TableTicket } from "@/app/components";
 import AddIssueBtn from "./AddIssueBtn";
 
 const IssuesPage = async () => {

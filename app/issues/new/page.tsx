@@ -8,11 +8,9 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createTicketSchema } from "@/app/validationSchema";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Spinner from "@/app/components/Spinner";
+import { ErrorMessage, Spinner } from "@/app/components";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
-import delay from "delay";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,

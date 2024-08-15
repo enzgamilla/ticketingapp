@@ -1,7 +1,6 @@
 import { Table } from "@radix-ui/themes";
 import React from "react";
-import StatusBadge from "./StatusBadge";
-import CustomLink from "./CustomLink";
+import { StatusBadge, CustomLink } from "@/app/components";
 
 interface TicketProps {
   tickets: Array<Type>;
