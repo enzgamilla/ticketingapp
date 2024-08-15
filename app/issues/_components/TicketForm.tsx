@@ -35,8 +35,10 @@ const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
   const handleSubmitForm = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post("/api/issues", data);
+      if (ticket) await axios.patch("/api/issues/" + ticket.id, data);
+      else await axios.post("/api/issues", data);
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError("An Unexpected Error Occured.");
@@ -69,7 +71,7 @@ const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
 
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={submitting}>
-          {!ticket ? "Submit new Ticket" : "Update Ticket"}
+          {ticket ? "Update Ticket " : "Submit new Ticket "}
           {submitting && <Spinner />}
         </Button>
       </form>
