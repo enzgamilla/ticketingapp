@@ -1,4 +1,6 @@
+import StatusBadge from "@/app/components/StatusBadge";
 import prisma from "@/prisma/client";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -17,10 +19,14 @@ const TicketDetailedPage = async ({ params }: Props) => {
 
   return (
     <div>
-      <p>{ticket?.title}</p>
-      <p>{ticket?.description}</p>
-      <p>{ticket?.status}</p>
-      <p>{ticket?.createdAt.toDateString()}</p>
+      <Heading>{ticket?.title}</Heading>
+      <Flex gap="3" my="2">
+        <StatusBadge status={ticket.status} />
+        <Text>{ticket?.createdAt.toDateString()}</Text>
+      </Flex>
+      <Card>
+        <p>{ticket?.description}</p>
+      </Card>
     </div>
   );
 };
