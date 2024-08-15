@@ -1,6 +1,7 @@
 import { Table } from "@radix-ui/themes";
 import React from "react";
 import StatusBadge from "./StatusBadge";
+import Link from "next/link";
 
 interface TicketProps {
   tickets: Array<Type>;
@@ -33,7 +34,7 @@ const TableTicket = ({ tickets }: TicketProps) => {
         {tickets.map((ticket) => (
           <Table.Row key={ticket.id}>
             <Table.Cell className="font-bold">
-              {ticket.title}
+              <Link href={`/issues/${ticket.id}`}>{ticket.title}</Link>
               <div className="block md:hidden">
                 {<StatusBadge status={ticket.status} />}
               </div>
