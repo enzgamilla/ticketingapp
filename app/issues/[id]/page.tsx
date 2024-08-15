@@ -18,16 +18,25 @@ const TicketDetailedPage = async ({ params }: Props) => {
   if (!ticket) notFound();
 
   return (
-    <div>
-      <Heading>{ticket?.title}</Heading>
-      <Flex gap="3" my="2">
-        <StatusBadge status={ticket.status} />
-        <Text>{ticket?.createdAt.toDateString()}</Text>
-      </Flex>
+    <>
+      <div className="prose space-y-2">
+        <Heading>{ticket?.title}</Heading>
+        <div className="flex justify-between">
+          <StatusBadge status={ticket.status} />
+          <Text>
+            {ticket?.createdAt.toLocaleDateString("en-us", {
+              weekday: "long",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </Text>
+        </div>
+      </div>
       <Card className="prose" mt="5">
         <ReactMarkdown>{ticket?.description}</ReactMarkdown>
       </Card>
-    </div>
+    </>
   );
 };
 
