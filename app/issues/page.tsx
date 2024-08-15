@@ -1,7 +1,7 @@
 import prisma from "@/prisma/client";
 import React from "react";
-import { TableTicket } from "@/app/components";
 import AddIssueBtn from "./AddIssueBtn";
+import TableTicket from "./TableTicket";
 
 const IssuesPage = async () => {
   const issues: any = await prisma.ticket.findMany();
