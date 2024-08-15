@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createTicketSchema } from "@/app/validationSchema";
+import { ticketSchema } from "@/app/validationSchema";
 import { z } from "zod";
 import { ErrorMessage, Spinner } from "@/app/components";
 import dynamic from "next/dynamic";
@@ -17,7 +17,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 
-type TicketFormData = z.infer<typeof createTicketSchema>;
+type TicketFormData = z.infer<typeof ticketSchema>;
 
 const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
   const [error, setError] = useState("");
@@ -29,7 +29,7 @@ const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
     control,
     formState: { errors },
   } = useForm<TicketFormData>({
-    resolver: zodResolver(createTicketSchema),
+    resolver: zodResolver(ticketSchema),
   });
 
   const handleSubmitForm = handleSubmit(async (data) => {
