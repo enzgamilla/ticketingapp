@@ -1,10 +1,8 @@
 import prisma from "@/prisma/client";
-import React from "react";
-import AddIssueBtn from "./AddIssueBtn";
-import { Card, Flex, Table } from "@radix-ui/themes";
+import { Flex, Table } from "@radix-ui/themes";
 import { CustomLink, StatusBadge } from "../components";
 import Pagination from "../components/Pagination";
-import { count } from "console";
+import AddIssueBtn from "./AddIssueBtn";
 
 interface Props {
   searchParams: {
@@ -24,7 +22,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const ticketCount = await prisma.ticket.findMany();
 
   return (
-    <Card className="space-y-3">
+    <div className="space-y-3 p-3">
       <AddIssueBtn />
       <Table.Root variant="surface">
         <Table.Header>
@@ -66,7 +64,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
           itemCount={ticketCount.length}
         />
       </Flex>
-    </Card>
+    </div>
   );
 };
 

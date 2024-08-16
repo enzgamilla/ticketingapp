@@ -42,35 +42,37 @@ const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
   });
 
   return (
-    <div className="max-w-xl">
-      {error && (
-        <Callout.Root color="red" className="mb-5" size="1">
-          <Callout.Text>{error}</Callout.Text>
-        </Callout.Root>
-      )}
-      <form className="space-y-3" onSubmit={handleSubmitForm}>
-        <TextField.Root
-          placeholder="Title"
-          {...register("title")}
-          size="2"
-          defaultValue={ticket?.title}
-        />
-        <ErrorMessage>{errors.title?.message}</ErrorMessage>
-        <Controller
-          name="description"
-          control={control}
-          defaultValue={ticket?.description}
-          render={({ field }) => (
-            <SimpleMDE placeholder="Description.." {...field} ref={null} />
-          )}
-        ></Controller>
+    <div className="flex justify-center pt-7">
+      <div className="w-[50rem]">
+        {error && (
+          <Callout.Root color="red" className="mb-5" size="1">
+            <Callout.Text>{error}</Callout.Text>
+          </Callout.Root>
+        )}
+        <form className="space-y-3" onSubmit={handleSubmitForm}>
+          <TextField.Root
+            placeholder="Title"
+            {...register("title")}
+            size="2"
+            defaultValue={ticket?.title}
+          />
+          <ErrorMessage>{errors.title?.message}</ErrorMessage>
+          <Controller
+            name="description"
+            control={control}
+            defaultValue={ticket?.description}
+            render={({ field }) => (
+              <SimpleMDE placeholder="Description.." {...field} ref={null} />
+            )}
+          ></Controller>
 
-        <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button disabled={submitting}>
-          {ticket ? "Update Ticket " : "Submit new Ticket "}
-          {submitting && <Spinner />}
-        </Button>
-      </form>
+          <ErrorMessage>{errors.description?.message}</ErrorMessage>
+          <Button disabled={submitting}>
+            {ticket ? "Update Ticket " : "Submit new Ticket "}
+            {submitting && <Spinner />}
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

@@ -4,8 +4,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import { Theme } from "@radix-ui/themes";
+import { Theme, Card } from "@radix-ui/themes";
 import SideBar from "./SideBar";
+import NavBar from "./NavBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,10 +26,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.variable}>
-        <Theme accentColor="blue" className="flex justify-between">
-          <SideBar />
-          <main className="w-full h-full p-14">{children}</main>
-        </Theme>
+        <main>
+          <Theme accentColor="blue" grayColor="slate">
+            <div className="flex justify-between bg-slate-100">
+              <SideBar />
+              <div className="w-full h-full">
+                <div className="flex flex-col h-full p-5">
+                  <NavBar />
+                  <Card className="min-h-[40rem]">{children}</Card>
+                </div>
+              </div>
+            </div>
+          </Theme>
+        </main>
       </body>
     </html>
   );
