@@ -1,6 +1,8 @@
 import prisma from "@/prisma/client";
-import { Box, Grid } from "@radix-ui/themes";
+import { Box, Flex, Grid } from "@radix-ui/themes";
+import axios from "axios";
 import { notFound } from "next/navigation";
+import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import TicketDetails from "./TicketDetails";
 
@@ -18,14 +20,17 @@ const TicketPage = async ({ params }: Props) => {
   if (!ticket) notFound();
 
   return (
-    <Grid columns={{ initial: "1", md: "2" }} gap="7">
-      <Box>
+    <Flex direction={{ initial: "column", sm: "row" }} justify="center" gap="7">
+      <Box width={{ initial: "100%", sm: "70%" }}>
         <TicketDetails ticket={ticket} />
       </Box>
-      <Box>
-        <EditIssueButton ticketId={ticket.id} />
+      <Box width={{ initial: "10rem" }}>
+        <Flex direction="column" gap="2">
+          <EditIssueButton ticketId={ticket.id} />
+          <DeleteIssueButton ticketId={ticket.id} />
+        </Flex>
       </Box>
-    </Grid>
+    </Flex>
   );
 };
 

@@ -1,26 +1,26 @@
 import { StatusBadge } from "@/app/components";
 import { Ticket } from "@prisma/client";
-import { Card, Heading, Text } from "@radix-ui/themes";
+import { Card, Flex, Heading, Text } from "@radix-ui/themes";
 import ReactMarkdown from "react-markdown";
 
 const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
   return (
     <>
-      <div className="prose space-y-2">
-        <Heading>{ticket?.title}</Heading>
-        <div className="flex justify-between">
+      <Heading>{ticket?.title}</Heading>
+      <Flex className="space-x-3" justify="between">
+        <div className="mt-1">
           <StatusBadge status={ticket.status} />
-          <Text>
-            {ticket?.createdAt.toLocaleDateString("en-us", {
-              weekday: "long",
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            })}
-          </Text>
         </div>
-      </div>
-      <Card className="prose" mt="5">
+        <Text>
+          {ticket?.createdAt.toLocaleDateString("en-us", {
+            weekday: "long",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          })}
+        </Text>
+      </Flex>
+      <Card className="prose max-w-full" mt="4">
         <ReactMarkdown>{ticket?.description}</ReactMarkdown>
       </Card>
     </>
