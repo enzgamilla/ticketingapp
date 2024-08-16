@@ -32,3 +32,24 @@ export async function PATCH(
 
   return NextResponse.json(updateTicket);
 }
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const getTicket = await prisma.ticket.findUnique({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  if (!getTicket) return NextResponse.json("Ticket not found", { status: 401 });
+
+  await prisma.ticket.delete({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  return NextResponse.json({});
+}
