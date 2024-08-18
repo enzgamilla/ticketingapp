@@ -1,11 +1,3 @@
-export default function Home({
-  searchParams,
-}: {
-  searchParams: { page: string };
-}) {
-  return (
-    <div>
-      <h1 className="font-semibold text-2xl">Home Page</h1>
-    </div>
-  );
+export default async function Home() {
+  return <div>Dashboard Page</div>;
 }

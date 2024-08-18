@@ -14,7 +14,7 @@ const SideBar = () => {
     {
       icon: <DashboardIcon className="size-5" />,
       label: "Dashboard",
-      href: "/",
+      href: "/dashboard",
     },
     {
       icon: <ListBulletIcon className="size-5" />,

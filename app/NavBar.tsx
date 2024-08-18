@@ -6,11 +6,11 @@ interface Props {
   name: string;
 }
 
-const NavBar = ({ name }: Props) => {
+const NavBar = () => {
   return (
     <Card className="mb-5 bg-white">
       <Flex p="2" justify="between" align="center">
-        <Text className="text-2xl font-semibold">Welcome {name}</Text>
+        <Text className="text-2xl font-semibold">Welcome </Text>
         <Link href="/api/auth/signout" className="font-semibold text-xl">
           Sign Out
         </Link>
