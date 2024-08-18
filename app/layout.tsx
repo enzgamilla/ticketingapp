@@ -26,27 +26,19 @@ export default async function RootLayout({
     <>
       <html lang="en">
         <body className={inter.variable}>
-          {!session ? (
-            <main>
-              <Theme accentColor="blue" grayColor="slate">
-                <LoginForm />
-              </Theme>
-            </main>
-          ) : (
-            <main>
-              <Theme accentColor="blue" grayColor="slate">
-                <div className="flex justify-between">
-                  <SideBar />
-                  <div className="w-full h-full">
-                    <div className="flex flex-col h-full p-5">
-                      <NavBar />
-                      <Card className="min-h-[40rem]">{children}</Card>
-                    </div>
+          <main>
+            <Theme accentColor="blue" grayColor="slate">
+              <div className="flex justify-between">
+                <SideBar />
+                <div className="w-full h-full">
+                  <div className="flex flex-col h-full p-5">
+                    <NavBar />
+                    <Card className="min-h-[40rem]">{children}</Card>
                   </div>
                 </div>
-              </Theme>
-            </main>
-          )}
+              </div>
+            </Theme>
+          </main>
         </body>
       </html>
     </>

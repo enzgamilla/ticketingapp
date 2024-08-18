@@ -40,7 +40,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
           {tickets.map((ticket) => (
             <Table.Row key={ticket.id}>
               <Table.Cell>
-                <CustomLink href={`/issues/${ticket.id}`}>
+                <CustomLink href={`/tickets/${ticket.id}`}>
                   {ticket.title}
                 </CustomLink>
                 <div className="block md:hidden">

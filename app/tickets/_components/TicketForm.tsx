@@ -31,9 +31,9 @@ const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
   const handleSubmitForm = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      if (ticket) await axios.patch("/api/issues/" + ticket.id, data);
-      else await axios.post("/api/issues", data);
-      router.push("/issues");
+      if (ticket) await axios.patch("/api/tickets/" + ticket.id, data);
+      else await axios.post("/api/tickets", data);
+      router.push("/tickets");
       router.refresh();
     } catch (error) {
       setSubmitting(false);

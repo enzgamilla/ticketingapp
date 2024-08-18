@@ -14,12 +14,12 @@ const SideBar = () => {
     {
       icon: <DashboardIcon className="size-5" />,
       label: "Dashboard",
-      href: "/dashboard",
+      href: "/",
     },
     {
       icon: <ListBulletIcon className="size-5" />,
       label: "Tickets",
-      href: "/issues",
+      href: "/tickets",
     },
   ];
   return (

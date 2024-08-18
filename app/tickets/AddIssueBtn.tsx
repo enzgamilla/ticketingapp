@@ -6,7 +6,7 @@ const AddIssueBtn = () => {
   return (
     <div>
       <Button>
-        <Link href="/issues/new">New Ticket</Link>
+        <Link href="/tickets/new">New Ticket</Link>
       </Button>
     </div>
   );

@@ -4,7 +4,7 @@ import TicketFormSkeleton from "./loading";
 import dynamic from "next/dynamic";
 
 const TicketForm = dynamic(
-  () => import("@/app/issues/_components/TicketForm"),
+  () => import("@/app/tickets/_components/TicketForm"),
   {
     ssr: false,
     loading: () => <TicketFormSkeleton />,
