@@ -10,5 +10,5 @@ export const config = {
   //*: zero or more
   //+: one or more
   //?: zero or one
-  matcher: ["/issues/:path*"],
+  matcher: ["/:path*"],
 };
