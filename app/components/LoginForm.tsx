@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -31,11 +31,17 @@ const LoginForm = () => {
     const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
-      redirect: true,
-      callbackUrl: "/",
+      redirect: false,
     });
 
-    if (!res?.ok) router.push("/");
+    if (res?.ok && res.status === 200) {
+      router.push("/");
+      router.refresh();
+    } else {
+      console.log("User does not exsist");
+    }
+
+    console.log(res);
   });
 
   return (
