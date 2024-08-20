@@ -1,5 +1,8 @@
+"use client";
+
 import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 interface Props {
@@ -7,6 +10,10 @@ interface Props {
 }
 
 const NavBar = () => {
+  const pathNames = usePathname();
+  const isAuthPage =
+    pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
+  if (isAuthPage) return null;
   return (
     <Card className="mb-5 bg-white">
       <Flex p="2" justify="between" align="center">

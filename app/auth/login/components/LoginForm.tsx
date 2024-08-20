@@ -1,9 +1,7 @@
 "use client";
 
-import { InfoCircledIcon } from "@radix-ui/react-icons";
 import {
   Button,
-  Callout,
   Card,
   Checkbox,
   Container,
@@ -13,6 +11,7 @@ import {
 } from "@radix-ui/themes";
 
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -48,25 +47,16 @@ const LoginForm = () => {
     }
     router.replace("/");
     router.refresh();
-
-    // if (res?.ok && res.status === 200) {
-    //   router.push("/");
-    //   router.refresh();
-    // } else if (res?.error) {
-    //   // router.push("/auth/error");
-    //   router.push("/api/auth/error");
-    //   console.log("An error occurred during sign-in:", res.error);
-    // }
   };
 
   return (
     <>
       <Container size="1">
-        <Flex direction="column">
-          <Card>
+        <Flex direction="column" height="100vh" pt="9">
+          <Card className="shadow-2xl bg-white">
             <form onSubmit={handleSubmit(onSubmit)} className="">
               <Flex direction="column" gap="3" p="9" justify="center">
-                <Text className="flex justify-center">Login</Text>
+                <Text className="flex justify-center">Track Our Tickets</Text>
                 <TextField.Root
                   size="2"
                   placeholder="Email"
@@ -96,12 +86,18 @@ const LoginForm = () => {
                     {errors.password.message}
                   </Text>
                 )}
-                <Text as="label" size="2">
-                  <Flex gap="2">
-                    <Checkbox onCheckedChange={handleShowPass} />
-                    Show Password
-                  </Flex>
-                </Text>
+                <Flex direction="row" justify="between" align="center">
+                  <Text as="label" size="2">
+                    <Flex gap="2">
+                      <Checkbox onCheckedChange={handleShowPass} />
+                      Show Password
+                    </Flex>
+                  </Text>
+                  <Link href="/auth/singup" className="text-xs text-cyan-600">
+                    Don't have an account?{" "}
+                  </Link>
+                </Flex>
+
                 <Flex
                   justify="center"
                   pt="2"

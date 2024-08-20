@@ -10,6 +10,9 @@ import { Flex } from "@radix-ui/themes";
 
 const SideBar = () => {
   const pathNames = usePathname();
+  const isAuthPage =
+    pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
+  if (isAuthPage) return null;
   const links = [
     {
       icon: <DashboardIcon className="size-5" />,

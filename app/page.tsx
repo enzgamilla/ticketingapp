@@ -1,3 +1,5 @@
+import LoadingLogo from "./auth/login/components/LoadingLogo";
+
 export default async function Home() {
-  return <div>Dashboard Page</div>;
+  return <div>Dashboard</div>;
 }
