@@ -4,8 +4,6 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
-import { NextResponse } from "next/server";
-import { error } from "console";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -19,32 +17,27 @@ export const authOptions: NextAuthOptions = {
           placeholder: "Password",
         },
       },
-      async authorize(credentials) {
+      async authorize(credentials): Promise<any> {
         if (!credentials?.email || !credentials.password) return null;
 
-        try {
-          const user = await prisma.user.findUnique({
-            where: { email: credentials.email },
-          });
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
 
-          if (!user) {
-            return null;
-          }
-
-          const matchPass = await bcrypt.compare(
-            credentials.password,
-            user.hashedPassword!
-          );
-
-          if (!matchPass) {
-            return null;
-          }
-
-          return { id: user.id, name: user.name!, email: user.email! };
-        } catch (error) {
-          console.error("Error during authentication:", error);
-          return null;
+        if (!user) {
+          throw new Error("User does not exsist");
         }
+
+        const matchPass = await bcrypt.compare(
+          credentials.password,
+          user.hashedPassword!
+        );
+
+        if (!matchPass) {
+          throw new Error("Your email & password does not match");
+        }
+
+        return { id: user.id, name: user.name!, email: user.email! };
       },
     }),
     GoogleProvider({
@@ -52,10 +45,19 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  pages: {
+    error: "/auth/login",
+  },
   session: {
     strategy: "jwt",
   },
   callbacks: {
+    async signIn({ user, credentials }) {
+      if (!user) {
+        return "/auth/error?error=CredentialsSignin";
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) token.email;
 

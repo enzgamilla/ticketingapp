@@ -55,14 +55,25 @@ const LoginForm = () => {
 
   return (
     <>
-      <Container size="1">
+      <Container size="2">
         <Flex direction="column" height="100vh" pt="9">
-          <Card className="shadow-2xl bg-white">
-            <form onSubmit={handleSubmit(onSubmit)} className="">
-              <Flex direction="column" gap="3" p="9" justify="center">
+          <Card className="shadow-2xl bg-white h-96">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex justify-center"
+            >
+              <Flex
+                direction="column"
+                gap="3"
+                p="9"
+                justify="center"
+                width="30rem"
+                align="center"
+              >
                 <Text className="flex justify-center">Track Our Tickets</Text>
                 <TextField.Root
-                  size="2"
+                  className="w-72"
+                  size="3"
                   placeholder="Email"
                   {...register("email", {
                     required: "Email is required",
@@ -78,8 +89,9 @@ const LoginForm = () => {
                   </Text>
                 )}
                 <TextField.Root
+                  className="w-72"
                   placeholder="Password"
-                  size="2"
+                  size="3"
                   type={showPassword === false ? "text" : "password"}
                   {...register("password", {
                     required: "Password is required",
@@ -90,7 +102,7 @@ const LoginForm = () => {
                     {errors.password.message}
                   </Text>
                 )}
-                <Flex direction="row" justify="between" align="center">
+                <Flex direction="row" justify="between" align="center" gap="3">
                   <Text as="label" size="2">
                     <Flex gap="2">
                       <Checkbox onCheckedChange={handleShowPass} />
@@ -114,8 +126,8 @@ const LoginForm = () => {
                     {submitting && <Spinner />}
                   </Button>
                   {error && (
-                    <Text color="red" size="2">
-                      {error}
+                    <Text color="red" size="1">
+                      {error}, Please try again.
                     </Text>
                   )}
                 </Flex>
