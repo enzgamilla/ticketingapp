@@ -4,6 +4,8 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcrypt";
+import { NextResponse } from "next/server";
+import { error } from "console";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -26,7 +28,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           if (!user) {
-            throw new Error("User does not exsist");
+            return null;
           }
 
           const matchPass = await bcrypt.compare(
@@ -35,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           );
 
           if (!matchPass) {
-            throw new Error("Email and Password does not match");
+            return null;
           }
 
           return { id: user.id, name: user.name!, email: user.email! };

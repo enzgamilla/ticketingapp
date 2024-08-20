@@ -6,6 +6,7 @@ import {
   Checkbox,
   Container,
   Flex,
+  Spinner,
   Text,
   TextField,
 } from "@radix-ui/themes";
@@ -23,6 +24,7 @@ type LoginFormValues = {
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
   const {
@@ -34,6 +36,7 @@ const LoginForm = () => {
   const handleShowPass = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data: LoginFormValues) => {
+    setSubmitting(true);
     const result = await signIn("credentials", {
       redirect: false,
       email: data.email,
@@ -42,6 +45,7 @@ const LoginForm = () => {
 
     if (result?.error) {
       console.log(result);
+      setSubmitting(false);
       setError(result.error);
       return;
     }
@@ -105,7 +109,10 @@ const LoginForm = () => {
                   align="center"
                   gap="3"
                 >
-                  <Button>Login</Button>
+                  <Button disabled={submitting}>
+                    Login
+                    {submitting && <Spinner />}
+                  </Button>
                   {error && (
                     <Text color="red" size="2">
                       {error}
