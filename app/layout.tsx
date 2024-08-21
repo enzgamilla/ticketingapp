@@ -6,7 +6,9 @@ import "./theme-config.css";
 
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
-import { useSession } from "next-auth/react";
+
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/authOptions";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,7 +20,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session } = useSession();
+  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={inter.variable}>
@@ -27,7 +29,7 @@ export default async function RootLayout({
             <div className="flex justify-between bg-slate-100">
               <SideBar />
               <div className="w-full h-full">
-                <div className="flex flex-col h-full">
+                <div className="flex flex-col">
                   <NavBar name={session?.user?.name!} />
                   {children}
                 </div>

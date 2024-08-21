@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
+import axios from "axios";
 
 type SingupFormValues = {
   name: string;
@@ -32,120 +33,133 @@ const SingupForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SingupFormValues>();
+  const { register, handleSubmit } = useForm<SingupFormValues>();
 
   const handleShowPass = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data: SingupFormValues) => {
-    console.log(data);
+    if (data.password === data.cpassword) {
+      setError("");
+      await axios.post("/api/register", data);
+      router.push("/auth/login");
+    } else {
+      setError("Your password does not match");
+    }
   };
 
   return (
-    <Container size="2" pt="9">
-      <Card>
-        <Form.Root
-          className="flex justify-center"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Grid gap="2" p="9">
-            <Text className="text-center text-xl pb-2">
-              Register your account
-            </Text>
-            <Form.Field name="name" className="grid mb-2  w-72">
-              <Flex align="baseline" justify="between">
-                <Form.Label className="text-xs">Full name</Form.Label>
-                <Form.Message
-                  match="valueMissing"
-                  className="text-xs text-red-500"
-                >
-                  Please enter your name
-                </Form.Message>
-              </Flex>
-              <Form.Control asChild>
-                <TextField.Root type="text" required {...register("name")} />
-              </Form.Control>
-            </Form.Field>
-            <Form.Field name="email" className="grid mb-2 w-72">
-              <Flex align="baseline" justify="between">
-                <Form.Label className="text-xs">Email</Form.Label>
-                <Form.Message
-                  match="valueMissing"
-                  className="text-xs text-red-500"
-                >
-                  Please enter your email
-                </Form.Message>
-                <Form.Message
-                  match="typeMismatch"
-                  className="text-xs text-red-500"
-                >
-                  Please provide a valid email
-                </Form.Message>
-              </Flex>
-              <Form.Control asChild>
-                <TextField.Root type="email" required {...register("email")} />
-              </Form.Control>
-            </Form.Field>
-            <Form.Field name="password" className="grid mb-2  w-72">
-              <Flex align="baseline" justify="between">
-                <Form.Label className="text-xs">Password</Form.Label>
-                <Form.Message
-                  match="valueMissing"
-                  className="text-xs text-red-500"
-                >
-                  Please enter your password.
-                </Form.Message>
-              </Flex>
-              <Form.Control asChild>
-                <TextField.Root
-                  required
-                  type={showPassword === false ? "text" : "password"}
-                  {...register("password")}
-                />
-              </Form.Control>
-            </Form.Field>
-            <Form.Field name="cpassword" className="grid mb-2 w-72">
-              <Flex align="baseline" justify="between">
-                <Form.Label className="text-xs">Confirm Password</Form.Label>
-                <Form.Message
-                  match="valueMissing"
-                  className="text-xs text-red-500"
-                >
-                  Please enter your password.
-                </Form.Message>
-              </Flex>
-              <Form.Control asChild>
-                <TextField.Root
-                  required
-                  type={showPassword === false ? "text" : "password"}
-                  {...register("cpassword")}
-                />
-              </Form.Control>
-              <Text as="label" size="2" className="pt-3">
-                <Flex gap="2">
-                  <Checkbox onCheckedChange={handleShowPass} />
-                  Show Password
-                </Flex>
+    <>
+      <Container size="2" pt="9">
+        <Card>
+          <Form.Root
+            className="flex justify-center"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Grid gap="2" p="9">
+              <Text className="text-center text-xl pb-2">
+                Register your account
               </Text>
-            </Form.Field>
-            <Flex justify="center" pt="3" gap="2">
-              <Button>
-                <Link href="/auth/login">Back to Login</Link>
-              </Button>
-              <Form.Submit asChild>
-                <Button disabled={submitting}>
-                  Sign up
-                  {submitting && <Spinner />}
+              <Form.Field name="name" className="grid mb-2  w-72">
+                <Flex align="baseline" justify="between">
+                  <Form.Label className="text-xs">Full name</Form.Label>
+                  <Form.Message
+                    match="valueMissing"
+                    className="text-xs text-red-500"
+                  >
+                    Please enter your name
+                  </Form.Message>
+                </Flex>
+                <Form.Control asChild>
+                  <TextField.Root type="text" required {...register("name")} />
+                </Form.Control>
+              </Form.Field>
+              <Form.Field name="email" className="grid mb-2 w-72">
+                <Flex align="baseline" justify="between">
+                  <Form.Label className="text-xs">Email</Form.Label>
+                  <Form.Message
+                    match="valueMissing"
+                    className="text-xs text-red-500"
+                  >
+                    Please enter your email
+                  </Form.Message>
+                  <Form.Message
+                    match="typeMismatch"
+                    className="text-xs text-red-500"
+                  >
+                    Please provide a valid email
+                  </Form.Message>
+                </Flex>
+                <Form.Control asChild>
+                  <TextField.Root
+                    type="email"
+                    required
+                    {...register("email")}
+                  />
+                </Form.Control>
+              </Form.Field>
+              <Form.Field name="password" className="grid mb-2  w-72">
+                <Flex align="baseline" justify="between">
+                  <Form.Label className="text-xs">Password</Form.Label>
+                  <Form.Message
+                    match="valueMissing"
+                    className="text-xs text-red-500"
+                  >
+                    Please enter your password.
+                  </Form.Message>
+                </Flex>
+                <Form.Control asChild>
+                  <TextField.Root
+                    required
+                    type={showPassword === false ? "text" : "password"}
+                    {...register("password")}
+                  />
+                </Form.Control>
+              </Form.Field>
+              <Form.Field name="cpassword" className="grid mb-2 w-72">
+                <Flex align="baseline" justify="between">
+                  <Form.Label className="text-xs">Confirm Password</Form.Label>
+                  <Form.Message
+                    match="valueMissing"
+                    className="text-xs text-red-500"
+                  >
+                    Please enter your password.
+                  </Form.Message>
+                </Flex>
+                <Form.Control asChild>
+                  <TextField.Root
+                    required
+                    type={showPassword === false ? "text" : "password"}
+                    {...register("cpassword")}
+                  />
+                </Form.Control>
+                <Text as="label" size="2" className="pt-3">
+                  <Flex gap="2">
+                    <Checkbox onCheckedChange={handleShowPass} />
+                    Show Password
+                  </Flex>
+                </Text>
+              </Form.Field>
+              <Flex justify="center" pt="3" gap="2">
+                <Button>
+                  <Link href="/auth/login">Back to Login</Link>
                 </Button>
-              </Form.Submit>
-            </Flex>
-          </Grid>
-        </Form.Root>
-      </Card>
-    </Container>
+                <Form.Submit asChild>
+                  <Button disabled={submitting}>
+                    Sign up
+                    {submitting && <Spinner />}
+                  </Button>
+                </Form.Submit>
+              </Flex>
+              {error && (
+                <Text color="red" size="1" className="text-center">
+                  {error}
+                </Text>
+              )}
+            </Grid>
+          </Form.Root>
+        </Card>
+      </Container>
+    </>
   );
 };
 
