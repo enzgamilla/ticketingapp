@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation";
 import React from "react";
 
 interface Props {
-  name: string;
+  name?: string;
 }
 
-const NavBar = () => {
+const NavBar = ({ name }: Props) => {
   const pathNames = usePathname();
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
@@ -17,7 +17,9 @@ const NavBar = () => {
   return (
     <Card className="mb-5 bg-white">
       <Flex p="2" justify="between" align="center">
-        <Text className="text-2xl font-semibold">Welcome </Text>
+        <Text className="text-2xl font-semibold">
+          Welcome {name || "Guest"}
+        </Text>
         <Link href="/api/auth/signout" className="font-semibold text-xl">
           Sign Out
         </Link>

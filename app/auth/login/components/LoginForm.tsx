@@ -55,7 +55,7 @@ const LoginForm = () => {
 
   return (
     <>
-      <Container size="2">
+      <Container size="1">
         <Flex direction="column" height="100vh" pt="9">
           <Card className="shadow-2xl bg-white h-96">
             <form
@@ -127,7 +127,7 @@ const LoginForm = () => {
                   </Button>
                   {error && (
                     <Text color="red" size="1">
-                      {error}, Please try again.
+                      {error}
                     </Text>
                   )}
                 </Flex>

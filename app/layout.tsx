@@ -6,6 +6,7 @@ import "./theme-config.css";
 
 import NavBar from "./NavBar";
 import SideBar from "./SideBar";
+import { useSession } from "next-auth/react";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,6 +18,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const { data: session } = useSession();
   return (
     <html lang="en">
       <body className={inter.variable}>
@@ -26,7 +28,7 @@ export default async function RootLayout({
               <SideBar />
               <div className="w-full h-full">
                 <div className="flex flex-col h-full">
-                  <NavBar />
+                  <NavBar name={session?.user?.name!} />
                   {children}
                 </div>
               </div>
