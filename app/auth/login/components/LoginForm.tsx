@@ -110,7 +110,7 @@ const LoginForm = () => {
                     </Flex>
                   </Text>
                   <Link href="/auth/singup" className="text-xs text-cyan-600">
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                   </Link>
                 </Flex>
 

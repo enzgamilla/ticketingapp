@@ -30,7 +30,11 @@ export default async function RootLayout({
               <SideBar />
               <div className="w-full h-full">
                 <div className="flex flex-col">
-                  <NavBar name={session?.user?.name!} />
+                  <NavBar
+                    name={session?.user?.name || "Guest"}
+                    public_id={session?.user?.image || "default_profile_vtwkjs"}
+                    email={session?.user?.email!}
+                  />
                   {children}
                 </div>
               </div>

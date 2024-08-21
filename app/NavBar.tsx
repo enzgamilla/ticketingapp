@@ -1,15 +1,16 @@
 "use client";
 
-import { Card, Flex, Text } from "@radix-ui/themes";
-import Link from "next/link";
+import { Box, Card, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 import { usePathname } from "next/navigation";
-import React from "react";
+import UserDropdownAvatar from "./components/UserDropdownAvatar";
 
 interface Props {
-  name?: string;
+  name: string;
+  email: string;
+  public_id: string;
 }
 
-const NavBar = ({ name }: Props) => {
+const NavBar = ({ name, email, public_id }: Props) => {
   const pathNames = usePathname();
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
@@ -17,12 +18,10 @@ const NavBar = ({ name }: Props) => {
   return (
     <Card className="mb-5 bg-white">
       <Flex p="2" justify="between" align="center">
-        <Text className="text-2xl font-semibold">
-          Welcome {name || "Guest"}
-        </Text>
-        <Link href="/api/auth/signout" className="font-semibold text-xl">
-          Sign Out
-        </Link>
+        <Text className="text-2xl font-semibold">Welcome {name}</Text>
+        <Box className="space-x-3">
+          <UserDropdownAvatar name={name} email={email} publicId={public_id} />
+        </Box>
       </Flex>
     </Card>
   );
