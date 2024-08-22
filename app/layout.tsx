@@ -9,6 +9,7 @@ import SideBar from "./SideBar";
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/authOptions";
+import QueryClientProvider from "./QueryClientProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,21 +26,25 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.variable}>
         <main>
-          <Theme accentColor="blue" grayColor="slate">
-            <div className="flex justify-between bg-slate-100">
-              <SideBar />
-              <div className="w-full h-full">
-                <div className="flex flex-col">
-                  <NavBar
-                    name={session?.user?.name || "Guest"}
-                    public_id={session?.user?.image || "default_profile_vtwkjs"}
-                    email={session?.user?.email!}
-                  />
-                  {children}
+          <QueryClientProvider>
+            <Theme accentColor="blue" grayColor="slate">
+              <div className="flex justify-between bg-slate-100">
+                <SideBar />
+                <div className="w-full h-full">
+                  <div className="flex flex-col">
+                    <NavBar
+                      name={session?.user?.name || "Guest"}
+                      public_id={
+                        session?.user?.image || "default_profile_vtwkjs"
+                      }
+                      email={session?.user?.email!}
+                    />
+                    {children}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Theme>
+            </Theme>
+          </QueryClientProvider>
         </main>
       </body>
     </html>
