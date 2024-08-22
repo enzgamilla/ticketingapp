@@ -11,12 +11,14 @@ datasource db {
 }
 
 model Ticket {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(255)
-  description String   @db.Text
-  status      Status   @default(OPEN)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  title            String   @db.VarChar(255)
+  description      String   @db.Text
+  status           Status   @default(OPEN)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  assignedToUserId String?  @db.VarChar(255)
+  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
 }
 
 enum Status {
@@ -34,6 +36,7 @@ model User {
   image          String          @default("default_profile_vtwkjs")
   accounts       Account[]
   sessions       Session[]
+  assignedTicket Ticket[]
   // Optional for WebAuthn support
   Authenticator  Authenticator[]
 
