@@ -27,7 +27,7 @@ const TicketPage = async ({ params }: Props) => {
         </Box>
         <Box>
           <Flex direction="column" gap="2">
-            <AssigneeSelectUser />
+            <AssigneeSelectUser ticket={ticket} />
             <EditIssueButton ticketId={ticket.id} />
             <DeleteIssueButton ticketId={ticket.id} />
           </Flex>

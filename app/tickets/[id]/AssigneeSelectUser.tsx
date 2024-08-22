@@ -1,4 +1,5 @@
 "use client";
+import { Ticket } from "@prisma/client";
 import { Select, Skeleton } from "@radix-ui/themes";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -8,7 +9,7 @@ type UserType = {
   name: string;
 };
 
-const AssigneeSelectUser = () => {
+const AssigneeSelectUser = ({ ticket }: { ticket: Ticket }) => {
   const {
     data: users,
     error,
@@ -24,8 +25,18 @@ const AssigneeSelectUser = () => {
 
   if (error) return null;
 
+  const handleValueChange = (userId: string) => {
+    const assignValue = userId === "none" ? null : userId;
+    axios.patch(`/api/tickets/${ticket.id}`, {
+      assignedToUserId: assignValue,
+    });
+  };
+
   return (
-    <Select.Root>
+    <Select.Root
+      defaultValue={ticket.assignedToUserId || ""}
+      onValueChange={(userId) => handleValueChange(userId)}
+    >
       <Select.Trigger
         placeholder="Assign User"
         className="hover:cursor-pointer"
@@ -33,6 +44,7 @@ const AssigneeSelectUser = () => {
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
+          <Select.Item value="none">Unassigned</Select.Item>
           {users?.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}

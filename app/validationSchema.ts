@@ -14,7 +14,7 @@ export const patchTicketSchema = z.object({
     .optional(),
   assignedToUserId: z
     .string()
-    .min(255, "AssignedToUserId is required")
+    .min(1, "AssignedToUserId is required")
     .max(255)
     .optional()
     .nullable(),
