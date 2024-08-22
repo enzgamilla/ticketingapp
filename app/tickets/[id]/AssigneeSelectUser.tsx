@@ -1,7 +1,7 @@
 "use client";
-import { Select } from "@radix-ui/themes";
+import { Select, Skeleton } from "@radix-ui/themes";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
 
 type UserType = {
   id: string;
@@ -9,16 +9,21 @@ type UserType = {
 };
 
 const AssigneeSelectUser = () => {
-  const [users, setUsers] = useState<UserType[]>([]);
+  const {
+    data: users,
+    error,
+    isLoading,
+  } = useQuery<UserType[]>({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000,
+    retry: 3,
+  });
 
-  useEffect(() => {
-    const getUser = async () => {
-      const { data } = await axios.get<UserType[]>("/api/users");
-      setUsers(data);
-    };
+  if (isLoading) return <Skeleton height="2rem" />;
 
-    getUser();
-  }, []);
+  if (error) return null;
+
   return (
     <Select.Root>
       <Select.Trigger
@@ -28,7 +33,7 @@ const AssigneeSelectUser = () => {
       <Select.Content>
         <Select.Group>
           <Select.Label>Suggestions</Select.Label>
-          {users.map((user) => (
+          {users?.map((user) => (
             <Select.Item key={user.id} value={user.id}>
               {user.name}
             </Select.Item>
