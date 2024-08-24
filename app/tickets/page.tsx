@@ -3,27 +3,45 @@ import { Flex, Table } from "@radix-ui/themes";
 import { CustomLink, StatusBadge } from "../components";
 import Pagination from "../components/Pagination";
 import AddIssueBtn from "./AddIssueBtn";
+import FIlterStatus from "./FIlterStatus";
+import { Status } from "@prisma/client";
 
 interface Props {
   searchParams: {
     page: string;
+    status: Status;
   };
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined; // to check if the status url is valid Status value from prisma
+
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
 
   const tickets = await prisma.ticket.findMany({
     skip: (page - 1) * pageSize,
     take: pageSize,
+    where: {
+      status: status,
+    },
   });
 
-  const ticketCount = await prisma.ticket.findMany();
+  const ticketCount = await prisma.ticket.findMany({
+    where: {
+      status: status,
+    },
+  });
 
   return (
     <div className="space-y-3 p-3">
-      <AddIssueBtn />
+      <Flex direction="row" gap="2" justify="between">
+        <FIlterStatus />
+        <AddIssueBtn />
+      </Flex>
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
@@ -43,16 +61,9 @@ const IssuesPage = async ({ searchParams }: Props) => {
                 <CustomLink href={`/tickets/${ticket.id}`}>
                   {ticket.title}
                 </CustomLink>
-                <div className="block md:hidden">
-                  {<StatusBadge status={ticket.status} />}
-                </div>
               </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {<StatusBadge status={ticket.status} />}
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {ticket.createdAt.toDateString()}
-              </Table.Cell>
+              <Table.Cell>{<StatusBadge status={ticket.status} />}</Table.Cell>
+              <Table.Cell>{ticket.createdAt.toDateString()}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
