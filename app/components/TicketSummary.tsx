@@ -9,7 +9,7 @@ interface Props {
   closed: number;
 }
 
-const IssueSummary = ({ open, inProgress, closed }: Props) => {
+const TicketSummary = ({ open, inProgress, closed }: Props) => {
   const container: { label: string; value: number; status: Status }[] = [
     { label: "Open Ticket", value: open, status: "OPEN" },
     { label: "In Progress Ticket", value: inProgress, status: "IN_PROGRESS" },
@@ -36,4 +36,4 @@ const IssueSummary = ({ open, inProgress, closed }: Props) => {
   );
 };
 
-export default IssueSummary;
+export default TicketSummary;
