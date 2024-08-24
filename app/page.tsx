@@ -1,5 +1,9 @@
-import LoadingLogo from "./auth/login/components/LoadingLogo";
+import LatestIssue from "./components/LatestIssue";
 
 export default async function Home() {
-  return <div>Dashboard</div>;
+  return (
+    <div>
+      <LatestIssue />
+    </div>
+  );
 }

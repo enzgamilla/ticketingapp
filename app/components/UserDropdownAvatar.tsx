@@ -14,18 +14,29 @@ const cloudinary = new Cloudinary({
   },
 });
 
-const UserDropdownAvatar = ({ name, email, publicId }: CloudinaryProps) => {
-  const scrUrl = cloudinary.image(publicId);
+const isGoogleImage = (url: string): boolean => {
+  return url.includes("googleusercontent.com");
+};
 
+const UserDropdownAvatar = ({ email, publicId }: CloudinaryProps) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <Avatar
-          src={scrUrl.toURL()}
-          fallback="?"
-          size="2"
-          className="cursor-pointer"
-        />
+        {isGoogleImage(publicId) ? (
+          <Avatar
+            src={publicId}
+            fallback="?"
+            size="2"
+            className="cursor-pointer"
+          />
+        ) : (
+          <Avatar
+            src={cloudinary.image(publicId).toURL()}
+            fallback="?"
+            size="2"
+            className="cursor-pointer"
+          />
+        )}
       </DropdownMenu.Trigger>
       <DropdownMenu.Content>
         <DropdownMenu.Label>
