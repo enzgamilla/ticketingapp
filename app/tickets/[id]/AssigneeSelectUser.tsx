@@ -11,16 +11,7 @@ type UserType = {
 };
 
 const AssigneeSelectUser = ({ ticket }: { ticket: Ticket }) => {
-  const {
-    data: users,
-    error,
-    isLoading,
-  } = useQuery<UserType[]>({
-    queryKey: ["users"],
-    queryFn: () => axios.get("/api/users").then((res) => res.data),
-    staleTime: 60 * 1000,
-    retry: 3,
-  });
+  const { data: users, error, isLoading } = useUsers();
 
   if (isLoading) return <Skeleton height="2rem" />;
 
@@ -61,5 +52,13 @@ const AssigneeSelectUser = ({ ticket }: { ticket: Ticket }) => {
     </>
   );
 };
+
+const useUsers = () =>
+  useQuery<UserType[]>({
+    queryKey: ["users"],
+    queryFn: () => axios.get("/api/users").then((res) => res.data),
+    staleTime: 60 * 1000,
+    retry: 3,
+  });
 
 export default AssigneeSelectUser;
