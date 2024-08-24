@@ -1,6 +1,5 @@
 import prisma from "@/prisma/client";
-import IssueSummary from "./components/IssueSummary";
-import LatestIssue from "./components/LatestIssue";
+import TicketChart from "@/app/components/TicketChart";
 
 export default async function Home() {
   const open = await prisma.ticket.count({
@@ -21,7 +20,7 @@ export default async function Home() {
 
   return (
     <div>
-      <IssueSummary open={open} inProgress={inprogress} closed={closed} />
+      <TicketChart open={open} inProgress={inprogress} closed={closed} />
     </div>
   );
 }
