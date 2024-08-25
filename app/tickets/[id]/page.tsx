@@ -5,6 +5,7 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import TicketDetails from "./TicketDetails";
 import AssigneeSelectUser from "./AssigneeSelectUser";
+import { title } from "process";
 
 interface Props {
   params: { id: string };
@@ -36,5 +37,18 @@ const TicketPage = async ({ params }: Props) => {
     </div>
   );
 };
+
+export async function generateMetadata({ params }: Props) {
+  const ticket = await prisma.ticket.findUnique({
+    where: {
+      id: parseInt(params.id),
+    },
+  });
+
+  return {
+    title: ticket?.title,
+    description: "Details of ticket " + ticket?.id,
+  };
+}
 
 export default TicketPage;

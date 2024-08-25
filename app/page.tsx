@@ -3,6 +3,7 @@ import TicketChart from "@/app/components/TicketChart";
 import { Flex, Grid } from "@radix-ui/themes";
 import TicketSummary from "@/app/components/TicketSummary";
 import LatestIssue from "@/app/components/LatestIssue";
+import { Metadata } from "next";
 
 export default async function Home() {
   const open = await prisma.ticket.count({
@@ -31,3 +32,8 @@ export default async function Home() {
     </Grid>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Ticketing App - Dashboard",
+  description: "View summary of tickets",
+};

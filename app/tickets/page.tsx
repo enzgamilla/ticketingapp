@@ -7,6 +7,7 @@ import FIlterStatus from "./FIlterStatus";
 import { Status, Ticket } from "@prisma/client";
 import NextLink from "next/link";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import { Metadata } from "next";
 
 interface Props {
   searchParams: {
@@ -110,5 +111,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
 };
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Ticketing App - Ticket List",
+  description: "View all tickets",
+};
 
 export default IssuesPage;

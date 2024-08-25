@@ -23,6 +23,7 @@ const LatestIssue = async () => {
       assignedToUser: true,
     },
   });
+
   return (
     <Card className="mx-4">
       <Heading size="4" mb="5">
@@ -65,5 +66,7 @@ const LatestIssue = async () => {
     </Card>
   );
 };
+
+export const dynamic = "force-dynamic";
 
 export default LatestIssue;
