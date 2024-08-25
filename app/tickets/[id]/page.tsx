@@ -5,18 +5,18 @@ import DeleteIssueButton from "./DeleteIssueButton";
 import EditIssueButton from "./EditIssueButton";
 import TicketDetails from "./TicketDetails";
 import AssigneeSelectUser from "./AssigneeSelectUser";
-import { title } from "process";
+import { cache } from "react";
 
 interface Props {
   params: { id: string };
 }
 
+const getUser = cache((ticketId: number) =>
+  prisma.ticket.findUnique({ where: { id: ticketId } })
+);
+
 const TicketPage = async ({ params }: Props) => {
-  const ticket = await prisma.ticket.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-  });
+  const ticket = await getUser(parseInt(params.id));
 
   if (!ticket) notFound();
 
@@ -39,11 +39,7 @@ const TicketPage = async ({ params }: Props) => {
 };
 
 export async function generateMetadata({ params }: Props) {
-  const ticket = await prisma.ticket.findUnique({
-    where: {
-      id: parseInt(params.id),
-    },
-  });
+  const ticket = await getUser(parseInt(params.id));
 
   return {
     title: ticket?.title,
