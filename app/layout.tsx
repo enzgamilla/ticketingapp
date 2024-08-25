@@ -1,4 +1,4 @@
-import { Grid, Theme } from "@radix-ui/themes";
+import { Card, Grid, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -34,7 +34,7 @@ export default async function RootLayout({
                 style={{ gridTemplateColumns: "18rem  1fr" }}
               >
                 <SideBar />
-                {children}
+                <Card className="p-3 m-5">{children}</Card>
               </Grid>
             </Theme>
           </QueryClientProvider>

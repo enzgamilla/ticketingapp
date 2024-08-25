@@ -28,20 +28,27 @@ enum Status {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  name           String?
-  email          String?         @unique
-  emailVerified  DateTime?
-  hashedPassword String?
-  image          String          @default("default_profile_vtwkjs")
-  accounts       Account[]
-  sessions       Session[]
-  assignedTicket Ticket[]
+  id              String          @id @default(cuid())
+  name            String?
+  email           String?         @unique
+  accountVerified Boolean         @default(false)
+  restrictions    Restriction     @default(DEP_EMPLOYEE)
+  hashedPassword  String?
+  image           String          @default("default_profile_vtwkjs")
+  accounts        Account[]
+  sessions        Session[]
+  assignedTicket  Ticket[]
   // Optional for WebAuthn support
-  Authenticator  Authenticator[]
+  Authenticator   Authenticator[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Restriction {
+  ADMIN
+  IT_EMPLOYEE
+  DEP_EMPLOYEE
 }
 
 model Account {
