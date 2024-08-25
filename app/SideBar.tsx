@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React from "react";
-import { SiPivotaltracker } from "react-icons/si";
 import classnames from "classnames";
 import { usePathname } from "next/navigation";
 import {
@@ -10,7 +9,8 @@ import {
   ListBulletIcon,
   PersonIcon,
 } from "@radix-ui/react-icons";
-import { Flex } from "@radix-ui/themes";
+import { Box, Separator } from "@radix-ui/themes";
+import CardInfoDropdown from "./components/CardInfoDropdown";
 
 const SideBar = () => {
   const pathNames = usePathname();
@@ -35,31 +35,36 @@ const SideBar = () => {
     },
   ];
   return (
-    <aside className="flex flex-col w-60 px-5 border-r min-h-screen bg-white">
-      <Flex justify="between">
-        <Link href="/">
-          <SiPivotaltracker className="size-10" />
-        </Link>
-      </Flex>
-      <ul className="pt-10 space-y-10">
-        {links.map((link) => (
-          <Link
-            className={`${classnames({
-              "text-zinc-950":
-                pathNames === link.href ||
-                pathNames.startsWith(`${link.href}/`),
-              "text-zinc-400":
-                pathNames !== link.href &&
-                !pathNames.startsWith(`${link.href}/`),
-              "hover:text-zinc-800 transition-colors": true,
-            })} flex items-center`}
-            href={link.href}
-            key={link.href}
-          >
-            {link.icon}&nbsp;{link.label}
-          </Link>
-        ))}
-      </ul>
+    <aside className="flex flex-col border-r bg-white">
+      <Box py="5" pl="3">
+        <CardInfoDropdown
+          userName="Laurence Angelo Gamilla"
+          userEmail="laurenceangelogamilla@gmail.com"
+          publicId="default_profile_vtwkjs"
+        />
+      </Box>
+      <Separator size="4" />
+      <Box px="5">
+        <ul className="pt-10 space-y-10">
+          {links.map((link) => (
+            <Link
+              className={`${classnames({
+                "text-zinc-950":
+                  pathNames === link.href ||
+                  pathNames.startsWith(`${link.href}/`),
+                "text-zinc-400":
+                  pathNames !== link.href &&
+                  !pathNames.startsWith(`${link.href}/`),
+                "hover:text-zinc-800 transition-colors": true,
+              })} flex items-center`}
+              href={link.href}
+              key={link.href}
+            >
+              {link.icon}&nbsp;{link.label}
+            </Link>
+          ))}
+        </ul>
+      </Box>
     </aside>
   );
 };

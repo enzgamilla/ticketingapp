@@ -7,7 +7,18 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        click: {
+          "0%": { transform: "scale(1)" },
+          "50%": { transform: "scale(0.95)" },
+          "100%": { transform: "scale(1)" },
+        },
+      },
+      animation: {
+        click: "click 0.2s ease",
+      },
+    },
   },
   plugins: [require("@tailwindcss/typography")],
 };
