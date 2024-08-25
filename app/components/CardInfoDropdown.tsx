@@ -3,7 +3,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 import React from "react";
 import Link from "next/link";
 
-interface Props {
+interface CloudinaryProps {
   userName: string;
   userEmail: string;
   publicId: string;
@@ -18,8 +18,11 @@ const cloudinary = new Cloudinary({
 const isGoogleImage = (url: string): boolean => {
   return url.includes("googleusercontent.com");
 };
-
-const CardInfoDropdown = ({ userName, userEmail, publicId }: Props) => {
+const CardInfoDropdown = ({
+  userName,
+  userEmail,
+  publicId,
+}: CloudinaryProps) => {
   return (
     <Box className="hover:cursor-pointer">
       <DropdownMenu.Root>

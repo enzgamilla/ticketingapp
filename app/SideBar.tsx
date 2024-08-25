@@ -12,7 +12,13 @@ import {
 import { Box, Separator } from "@radix-ui/themes";
 import CardInfoDropdown from "./components/CardInfoDropdown";
 
-const SideBar = () => {
+interface Props {
+  name: string;
+  email: string;
+  public_id: string;
+}
+
+const SideBar = ({ name, email, public_id }: Props) => {
   const pathNames = usePathname();
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
@@ -38,9 +44,9 @@ const SideBar = () => {
     <aside className="flex flex-col border-r bg-white">
       <Box py="5" pl="3">
         <CardInfoDropdown
-          userName="Laurence Angelo Gamilla"
-          userEmail="laurenceangelogamilla@gmail.com"
-          publicId="default_profile_vtwkjs"
+          userName={name}
+          userEmail={email}
+          publicId={public_id}
         />
       </Box>
       <Separator size="4" />
