@@ -27,7 +27,7 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
     const params = new URLSearchParams(searchParams.toString());
 
     params.set("page", page.toString());
-    router.push(page === 1 ? "/tickets" : "?" + params.toString());
+    router.push("?" + params.toString());
   };
   return (
     <Flex align="center" gap="2">

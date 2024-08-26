@@ -1,13 +1,7 @@
 import prisma from "@/prisma/client";
-import { Flex, Table } from "@radix-ui/themes";
-import { CustomLink, StatusBadge } from "../components";
-import Pagination from "../components/Pagination";
-import AddIssueBtn from "./AddIssueBtn";
-import FIlterStatus from "./FIlterStatus";
 import { Status, Ticket } from "@prisma/client";
-import NextLink from "next/link";
-import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { Metadata } from "next";
+import TableList from "../components/TableList";
 
 interface Props {
   searchParams: {
@@ -54,58 +48,36 @@ const IssuesPage = async ({ searchParams }: Props) => {
     { label: "Created", value: "createdAt" },
   ];
 
+  const pageProperties = {
+    pageSize: pageSize,
+    currentPage: page,
+    itemCount: ticketCount.length,
+  };
+
+  const dataList: {
+    id: string;
+    colOne: string;
+    colTwo: string;
+    colThree: string;
+  }[] =
+    tickets?.map((ticket) => ({
+      id: ticket.id.toString(),
+      colOne: ticket.title,
+      colTwo: ticket.status,
+      colThree: ticket.createdAt.toDateString(),
+    })) || [];
+
   return (
     <div className="space-y-3 p-3">
-      <Flex direction="row" gap="2" justify="between">
-        <FIlterStatus />
-        <Pagination
-          pageSize={pageSize}
-          currentPage={page}
-          itemCount={ticketCount.length}
-        />
-        <AddIssueBtn />
-      </Flex>
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            {columns.map((header) => (
-              <Table.ColumnHeaderCell key={header.value}>
-                <NextLink
-                  href={{
-                    query: {
-                      ...searchParams,
-                      orderBy: header.value,
-                      orderDirection:
-                        searchParams.orderDirection === "asc" ? "desc" : "asc",
-                    },
-                  }}
-                >
-                  {header.label}
-                </NextLink>
-                {header.value === searchParams.orderBy &&
-                  (searchParams.orderDirection === "asc" ? (
-                    <ArrowUpIcon className="inline" />
-                  ) : (
-                    <ArrowDownIcon className="inline" />
-                  ))}
-              </Table.ColumnHeaderCell>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {tickets.map((ticket) => (
-            <Table.Row key={ticket.id}>
-              <Table.Cell>
-                <CustomLink href={`/tickets/${ticket.id}`}>
-                  {ticket.title}
-                </CustomLink>
-              </Table.Cell>
-              <Table.Cell>{<StatusBadge status={ticket.status} />}</Table.Cell>
-              <Table.Cell>{ticket.createdAt.toDateString()}</Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+      <TableList
+        pagination={pageProperties}
+        dataList={dataList}
+        headerList={columns}
+        searchParams={searchParams}
+        filter={true}
+        labelAddBtn="Ticket"
+        pathAddBtn="tickets"
+      />
     </div>
   );
 };
