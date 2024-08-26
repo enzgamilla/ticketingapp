@@ -29,10 +29,14 @@ export default async function RootLayout({
           <QueryClientProvider>
             <Theme accentColor="blue" grayColor="slate">
               <Grid
-                columns="2"
+                columns={session ? "1" : "2"}
                 height="100vh"
                 className="bg-slate-100"
-                style={{ gridTemplateColumns: "18rem  1fr" }}
+                style={
+                  session
+                    ? { gridTemplateColumns: "18rem  1fr" }
+                    : { gridTemplateColumns: "1fr" }
+                }
               >
                 <SideBar
                   name={session?.user?.name!}

@@ -83,24 +83,24 @@ const TableList = ({
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {dataList.map((ticket) => (
-            <Table.Row key={ticket.id}>
+          {dataList.map((data) => (
+            <Table.Row key={data.id}>
               <Table.Cell>
-                <CustomLink href={`/tickets/${ticket.id}`}>
-                  {ticket.colOne}
+                <CustomLink href={`/${pathAddBtn}/${data.id}`}>
+                  {data.colOne}
                 </CustomLink>
               </Table.Cell>
               <Table.Cell>
-                {checkColtwo(ticket.colTwo) ? (
-                  ticket.colTwo
+                {checkColtwo(data.colTwo) ? (
+                  data.colTwo
                 ) : (
-                  <StatusBadge status={ticket.colTwo} />
+                  <StatusBadge status={data.colTwo} />
                 )}
               </Table.Cell>
-              <Table.Cell>{ticket.colThree}</Table.Cell>
-              {ticket.colFour && (
+              <Table.Cell>{data.colThree}</Table.Cell>
+              {data.colFour && (
                 <Table.Cell>
-                  <StatusBadge verified={ticket.colFour} />
+                  <StatusBadge verified={data.colFour} />
                 </Table.Cell>
               )}
             </Table.Row>
