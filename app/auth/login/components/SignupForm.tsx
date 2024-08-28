@@ -23,7 +23,7 @@ import axios from "axios";
 
 type SingupFormValues = {
   name: string;
-  email: string;
+  username: string;
   password: string;
   cpassword: string;
 };
@@ -75,25 +75,19 @@ const SingupForm = () => {
               </Form.Field>
               <Form.Field name="email" className="grid mb-2 w-72">
                 <Flex align="baseline" justify="between">
-                  <Form.Label className="text-xs">Email</Form.Label>
+                  <Form.Label className="text-xs">Username</Form.Label>
                   <Form.Message
                     match="valueMissing"
                     className="text-xs text-red-500"
                   >
-                    Please enter your email
-                  </Form.Message>
-                  <Form.Message
-                    match="typeMismatch"
-                    className="text-xs text-red-500"
-                  >
-                    Please provide a valid email
+                    Please enter your username
                   </Form.Message>
                 </Flex>
                 <Form.Control asChild>
                   <TextField.Root
-                    type="email"
+                    type="text"
                     required
-                    {...register("email")}
+                    {...register("username")}
                   />
                 </Form.Control>
               </Form.Field>

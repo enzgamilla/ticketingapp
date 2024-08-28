@@ -18,7 +18,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 type LoginFormValues = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -39,7 +39,7 @@ const LoginForm = () => {
     setSubmitting(true);
     const result = await signIn("credentials", {
       redirect: false,
-      email: data.email,
+      username: data.username,
       password: data.password,
     });
 
@@ -74,18 +74,12 @@ const LoginForm = () => {
                 <TextField.Root
                   className="w-72"
                   size="3"
-                  placeholder="Email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message: "Invalid email address",
-                    },
-                  })}
+                  placeholder="Username"
+                  {...register("username")}
                 />
-                {errors.email && (
+                {errors.username && (
                   <Text color="red" size="2">
-                    {errors.email.message}
+                    {errors.username.message}
                   </Text>
                 )}
                 <TextField.Root
