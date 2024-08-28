@@ -26,7 +26,7 @@ interface UserInfoProps {
 
 type UserInfo = {
   name: string;
-  email: string;
+  username: string;
 };
 
 const UpdateUserForm = ({ user }: UserInfoProps) => {
@@ -44,7 +44,9 @@ const UpdateUserForm = ({ user }: UserInfoProps) => {
       });
       route.push("/users");
       route.refresh();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -68,7 +70,7 @@ const UpdateUserForm = ({ user }: UserInfoProps) => {
               <Form.Control asChild>
                 <TextField.Root
                   type="text"
-                  value={user?.name!}
+                  defaultValue={user.name!}
                   {...register("name")}
                   required
                 />
@@ -87,8 +89,8 @@ const UpdateUserForm = ({ user }: UserInfoProps) => {
               <Form.Control asChild>
                 <TextField.Root
                   type="text"
-                  value={user?.username!}
-                  {...register("email")}
+                  defaultValue={user?.username!}
+                  {...register("username")}
                   required
                 />
               </Form.Control>

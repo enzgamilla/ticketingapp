@@ -11,11 +11,7 @@ export default async function Home() {
       status: "OPEN",
     },
   });
-  const inprogress = await prisma.ticket.count({
-    where: {
-      status: "IN_PROGRESS",
-    },
-  });
+
   const closed = await prisma.ticket.count({
     where: {
       status: "CLOSED",
@@ -25,8 +21,8 @@ export default async function Home() {
   return (
     <Grid columns="2" gap="5" m="9">
       <Flex direction="column" gap="5">
-        <TicketSummary open={open} inProgress={inprogress} closed={closed} />
-        <TicketChart open={open} inProgress={inprogress} closed={closed} />
+        <TicketSummary open={open} closed={closed} />
+        <TicketChart open={open} closed={closed} />
       </Flex>
       <LatestIssue />
     </Grid>

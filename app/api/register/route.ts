@@ -1,16 +1,16 @@
 import prisma from "@/prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 import bcrypt from "bcrypt";
-
-const schema = z.object({
-  username: z.string().min(8),
-  password: z.string().min(6),
-});
+import { userSchema } from "@/app/validationSchema";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/authOptions";
 
 export async function POST(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({}, { status: 401 });
+
   const body = await request.json();
-  const validation = schema.safeParse(body);
+  const validation = userSchema.safeParse(body);
 
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });

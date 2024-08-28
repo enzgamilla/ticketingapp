@@ -6,14 +6,13 @@ import React from "react";
 
 interface Props {
   open: number;
-  inProgress: number;
+
   closed: number;
 }
 
-const TicketChart = ({ open, inProgress, closed }: Props) => {
+const TicketChart = ({ open, closed }: Props) => {
   const data = [
     { label: "Open", value: open },
-    { label: "In Progress", value: inProgress },
     { label: "Closed", value: closed },
   ];
 

@@ -1,4 +1,4 @@
-import { patchTicketSchema, patchUserSchema } from "@/app/validationSchema";
+import { patchUserSchema } from "@/app/validationSchema";
 import prisma from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,7 +15,7 @@ export async function PATCH(
   const validation = patchUserSchema.safeParse(body);
 
   if (!validation.success)
-    return NextResponse.json(validation.error.format(), { status: 400 });
+    return NextResponse.json(validation.error.errors, { status: 400 });
 
   const { name, username, verification } = body;
 

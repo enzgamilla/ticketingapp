@@ -5,6 +5,15 @@ export const ticketSchema = z.object({
   description: z.string().min(1, "Description is required.").max(65535),
 });
 
+export const userSchema = z.object({
+  name: z.string().min(1, "Name is required").max(20),
+  username: z
+    .string()
+    .min(1, "Username is required")
+    .max(8, "Username must be 8 characters or fewer."),
+  password: z.string().min(1, "Password is required").max(100),
+});
+
 export const patchTicketSchema = z.object({
   title: z.string().min(1, "Title is required.").max(255).optional(),
   description: z
@@ -21,7 +30,10 @@ export const patchTicketSchema = z.object({
 });
 
 export const patchUserSchema = z.object({
-  name: z.string().min(1, "Name is required.").max(8),
-  email: z.string().min(1, "Username is required.").max(8),
-  accountVerified: z.boolean(),
+  name: z.string().min(1, "Name is required.").max(20),
+  username: z
+    .string()
+    .min(1, "Username is required")
+    .max(8, "Username must be 8 characters or fewer."),
+  verification: z.boolean(),
 });
