@@ -3,7 +3,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -20,13 +19,18 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials): Promise<any> {
         if (!credentials?.username || !credentials.password) return null;
 
-        const user = await prisma.user.findUnique({
+        const user = await prisma.userAccount.findUnique({
           where: { username: credentials.username },
         });
 
         if (!user) {
           throw new Error("User does not exsist");
         }
+
+        if (!user.verification)
+          throw new Error(
+            "User is not activated. Please ask the administrator to activate your account."
+          );
 
         const matchPass = await bcrypt.compare(
           credentials.password,
@@ -40,7 +44,8 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           name: user.name!,
-          email: user.username!,
+          username: user.username!,
+          restriction: user.restrictions,
           image: user.image,
         };
       },
@@ -59,10 +64,11 @@ export const authOptions: NextAuthOptions = {
       }
       return true;
     },
-    async jwt({ token, user }) {
-      if (user) token.email;
-
-      return token;
-    },
+    // async session({session, token, user}){
+    //   session.user = {
+    //     id: user.id
+    //   }
+    //   return session;
+    // },
   },
 };

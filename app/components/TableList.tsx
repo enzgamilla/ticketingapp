@@ -6,7 +6,7 @@ import NextLink from "next/link";
 import CustomLink from "./CustomLink";
 import Pagination from "./Pagination";
 import StatusBadge from "./StatusBadge";
-import { Status, Ticket, User } from "@prisma/client";
+import { Ticket, UserAccount } from "@prisma/client";
 
 interface Props {
   headerList: { label: string; value: string }[];
@@ -23,7 +23,7 @@ interface Props {
     itemCount: number;
   };
   searchParams: {
-    orderBy: keyof Ticket | keyof User;
+    orderBy: keyof Ticket | keyof UserAccount;
     orderDirection: "asc" | "desc";
   };
   labelAddBtn: string;

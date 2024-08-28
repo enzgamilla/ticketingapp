@@ -1,12 +1,12 @@
 import { Box } from "@radix-ui/themes";
-import { Restriction, User } from "@prisma/client";
+import { Restriction, UserAccount } from "@prisma/client";
 import TableList from "../components/TableList";
 import prisma from "@/prisma/client";
 
 interface Props {
   searchParams: {
     page: string;
-    orderBy: keyof User;
+    orderBy: keyof UserAccount;
     orderDirection: "asc" | "desc";
   };
 }
@@ -20,7 +20,7 @@ const UserPage = async ({ searchParams }: Props) => {
     ? { [selectedToSort]: searchParams.orderDirection || "asc" }
     : undefined; // to check if selectedSort is already on 'asc'
 
-  const users = await prisma.user.findMany({
+  const users = await prisma.userAccount.findMany({
     skip: (page - 1) * pageSize,
     take: pageSize,
     where: {
@@ -29,9 +29,9 @@ const UserPage = async ({ searchParams }: Props) => {
     orderBy,
   });
 
-  const userCount = await prisma.user.count();
+  const userCount = await prisma.userAccount.count();
 
-  const columns: { label: string; value: keyof User }[] = [
+  const columns: { label: string; value: keyof UserAccount }[] = [
     { label: "Name", value: "name" },
     { label: "Username", value: "username" },
     { label: "Position", value: "restrictions" },

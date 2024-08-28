@@ -11,14 +11,16 @@ import {
 } from "@radix-ui/react-icons";
 import { Box, Separator } from "@radix-ui/themes";
 import CardInfoDropdown from "./components/CardInfoDropdown";
+import { Restriction } from "@prisma/client";
 
 interface Props {
   name: string;
-  email: string;
+  username?: string;
+  restriction?: string;
   public_id: string;
 }
 
-const SideBar = ({ name, email, public_id }: Props) => {
+const SideBar = ({ name, username, restriction, public_id }: Props) => {
   const pathNames = usePathname();
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
@@ -44,8 +46,8 @@ const SideBar = ({ name, email, public_id }: Props) => {
     <aside className="flex flex-col border-r bg-white">
       <Box py="5" pl="3">
         <CardInfoDropdown
-          userName={name}
-          userEmail={email}
+          user_name={name}
+          username={username}
           publicId={public_id}
         />
       </Box>

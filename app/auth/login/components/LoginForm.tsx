@@ -44,7 +44,6 @@ const LoginForm = () => {
     });
 
     if (result?.error) {
-      console.log(result);
       setSubmitting(false);
       setError(result.error);
       return;

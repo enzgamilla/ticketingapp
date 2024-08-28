@@ -15,13 +15,13 @@ import {
 
 import * as Form from "@radix-ui/react-form";
 import { useForm } from "react-hook-form";
-import { User } from "@prisma/client";
+import { UserAccount } from "@prisma/client";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 interface UserInfoProps {
-  user: User;
+  user: UserAccount;
 }
 
 type UserInfo = {

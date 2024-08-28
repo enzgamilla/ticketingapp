@@ -40,7 +40,6 @@ export default async function RootLayout({
               >
                 <SideBar
                   name={session?.user?.name!}
-                  email={session?.user?.email!}
                   public_id={session?.user?.image! || "default_profile_vtwkjs"}
                 />
                 {children}

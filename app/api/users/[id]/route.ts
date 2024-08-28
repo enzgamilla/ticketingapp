@@ -19,7 +19,7 @@ export async function PATCH(
 
   const { name, username, verification } = body;
 
-  const updateUser = await prisma.user.update({
+  const updateUser = await prisma.userAccount.update({
     where: {
       id: params.id,
     },

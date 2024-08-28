@@ -4,8 +4,8 @@ import React from "react";
 import Link from "next/link";
 
 interface CloudinaryProps {
-  userName: string;
-  userEmail: string;
+  user_name: string;
+  username?: string;
   publicId: string;
 }
 
@@ -19,8 +19,8 @@ const isGoogleImage = (url: string): boolean => {
   return url.includes("googleusercontent.com");
 };
 const CardInfoDropdown = ({
-  userName,
-  userEmail,
+  user_name: user_Name,
+  username,
   publicId,
 }: CloudinaryProps) => {
   return (
@@ -39,10 +39,10 @@ const CardInfoDropdown = ({
             )}
             <Box className="select-none">
               <Text as="div" weight="bold" className="text-xs">
-                {userName}
+                {user_Name}
               </Text>
               <Text as="div" color="gray" className="text-xs">
-                {userEmail}
+                {username}
               </Text>
             </Box>
           </Flex>
