@@ -10,7 +10,7 @@ export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {
-        email: { label: "Email", type: " email", placeholder: "Email" },
+        username: { label: "Username", type: "text", placeholder: "Username" },
         password: {
           label: "Password",
           type: "password",
@@ -18,10 +18,10 @@ export const authOptions: NextAuthOptions = {
         },
       },
       async authorize(credentials): Promise<any> {
-        if (!credentials?.email || !credentials.password) return null;
+        if (!credentials?.username || !credentials.password) return null;
 
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { username: credentials.username },
         });
 
         if (!user) {
@@ -40,14 +40,10 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           name: user.name!,
-          email: user.email!,
+          email: user.username!,
           image: user.image,
         };
       },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   pages: {
@@ -67,11 +63,6 @@ export const authOptions: NextAuthOptions = {
       if (user) token.email;
 
       return token;
-    },
-    async session({ session, token }) {
-      if (session.user) session.user.email = token.email || "";
-      else session.user = { email: token.email || "" } as any;
-      return session;
     },
   },
 };

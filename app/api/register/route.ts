@@ -4,7 +4,7 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 
 const schema = z.object({
-  email: z.string().email(),
+  username: z.string().min(8),
   password: z.string().min(6),
 });
 
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: {
-      email: body.email,
+      username: body.username,
     },
   });
 
@@ -28,10 +28,10 @@ export async function POST(request: NextRequest) {
   const newUser = await prisma.user.create({
     data: {
       name: body.name,
-      email: body.email,
+      username: body.username,
       hashedPassword,
     },
   });
 
-  return NextResponse.json({ email: newUser.email }, { status: 201 });
+  return NextResponse.json({ email: newUser.username }, { status: 201 });
 }

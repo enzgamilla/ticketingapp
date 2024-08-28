@@ -19,3 +19,9 @@ export const patchTicketSchema = z.object({
     .optional()
     .nullable(),
 });
+
+export const patchUserSchema = z.object({
+  name: z.string().min(1, "Name is required.").max(8),
+  email: z.string().min(1, "Username is required.").max(8),
+  accountVerified: z.boolean(),
+});
