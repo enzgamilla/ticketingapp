@@ -43,6 +43,9 @@ const TableList = ({
   const checkColtwo = (colTwo: string): boolean => {
     return colTwo.includes("@");
   };
+  const removeAt = (colTwo: string) => {
+    return colTwo.replace("@", "");
+  };
 
   return (
     <div className="space-y-3 p-3">
@@ -92,7 +95,7 @@ const TableList = ({
               </Table.Cell>
               <Table.Cell>
                 {checkColtwo(data.colTwo) ? (
-                  data.colTwo
+                  removeAt(data.colTwo)
                 ) : (
                   <StatusBadge status={data.colTwo} />
                 )}

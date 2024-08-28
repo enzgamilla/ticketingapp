@@ -40,8 +40,8 @@ const SingupForm = () => {
   const onSubmit = async (data: SingupFormValues) => {
     if (data.password === data.cpassword) {
       setError("");
-      console.log(data);
-      await axios.post("/api/register", data);
+      const setUname = { ...data, username: "@" + data.username };
+      await axios.post("/api/register", setUname);
       router.push("/auth/login");
     } else {
       setError("Your password does not match");

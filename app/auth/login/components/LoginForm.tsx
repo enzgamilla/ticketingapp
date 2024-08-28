@@ -39,7 +39,7 @@ const LoginForm = () => {
     setSubmitting(true);
     const result = await signIn("credentials", {
       redirect: false,
-      username: data.username,
+      username: "@" + data.username,
       password: data.password,
     });
 
@@ -76,7 +76,9 @@ const LoginForm = () => {
                   size="3"
                   placeholder="Username"
                   {...register("username")}
-                />
+                >
+                  <TextField.Slot>@</TextField.Slot>
+                </TextField.Root>
                 {errors.username && (
                   <Text color="red" size="2">
                     {errors.username.message}

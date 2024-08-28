@@ -12,8 +12,6 @@ interface Props {
 }
 
 const UserPage = async ({ searchParams }: Props) => {
-  const restrictions = Object.values(Restriction);
-
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
 
@@ -35,9 +33,9 @@ const UserPage = async ({ searchParams }: Props) => {
 
   const columns: { label: string; value: keyof User }[] = [
     { label: "Name", value: "name" },
-    { label: "Email", value: "email" },
+    { label: "Username", value: "username" },
     { label: "Position", value: "restrictions" },
-    { label: "Active", value: "accountVerified" },
+    { label: "Active", value: "verification" },
   ];
 
   const pagePropperties = {
@@ -48,7 +46,6 @@ const UserPage = async ({ searchParams }: Props) => {
 
   const definePosition = (pos: Restriction) => {
     if (pos === "ADMIN") return "Admin";
-    else if (pos === "IT_EMPLOYEE") return "IT Department";
     else return "Employee";
   };
 
@@ -66,9 +63,9 @@ const UserPage = async ({ searchParams }: Props) => {
     users.map((user) => ({
       id: user.id,
       colOne: user.name || "Empty",
-      colTwo: user.email || "Empty",
+      colTwo: user.username || "Empty",
       colThree: definePosition(user.restrictions),
-      colFour: defineVerified(user.accountVerified),
+      colFour: defineVerified(user.verification),
     })) || [];
 
   return (
