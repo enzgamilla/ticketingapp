@@ -11,16 +11,23 @@ import {
 } from "@radix-ui/react-icons";
 import { Box, Separator } from "@radix-ui/themes";
 import CardInfoDropdown from "./components/CardInfoDropdown";
-import { Restriction } from "@prisma/client";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import prisma from "@/prisma/client";
 
 interface Props {
-  name: string;
-  username?: string;
-  restriction?: string;
-  public_id: string;
+  id: string;
 }
 
-const SideBar = ({ name, username, restriction, public_id }: Props) => {
+const SideBar = ({ id }: Props) => {
+  const { data: users } = useQuery({
+    queryKey: ["users", id],
+    queryFn: () =>
+      axios.get("/api/users/sessionUser/" + id).then((res) => res.data),
+    staleTime: 60 * 1000,
+    retry: 3,
+  });
+
   const pathNames = usePathname();
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
@@ -46,9 +53,9 @@ const SideBar = ({ name, username, restriction, public_id }: Props) => {
     <aside className="flex flex-col border-r bg-white">
       <Box py="5" pl="3">
         <CardInfoDropdown
-          user_name={name}
-          username={username}
-          publicId={public_id}
+          user_name={users.name}
+          username={users.username}
+          publicId={users.image}
         />
       </Box>
       <Separator size="4" />

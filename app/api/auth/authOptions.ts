@@ -58,17 +58,23 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id; // Add user ID to the token
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub as string; // Retrieve user ID from the token
+      }
+      return session;
+    },
     async signIn({ user, credentials }) {
       if (!user) {
         return "/auth/error?error=CredentialsSignin";
       }
       return true;
     },
-    // async session({session, token, user}){
-    //   session.user = {
-    //     id: user.id
-    //   }
-    //   return session;
-    // },
   },
 };

@@ -9,6 +9,7 @@ import SideBar from "@/app/SideBar";
 import QueryClientProvider from "./QueryClientProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
+import ClientSessionProvider from "./components/ClientSessionProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,10 +39,9 @@ export default async function RootLayout({
                     : { gridTemplateColumns: "1fr" }
                 }
               >
-                <SideBar
-                  name={session?.user?.name!}
-                  public_id={session?.user?.image! || "default_profile_vtwkjs"}
-                />
+                <ClientSessionProvider>
+                  <SideBar id={session?.user.id!} />
+                </ClientSessionProvider>
                 {children}
               </Grid>
             </Theme>
