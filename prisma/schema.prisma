@@ -27,18 +27,18 @@ enum Status {
 }
 
 model UserAccount {
-  id             String      @id @default(cuid())
-  name           String?
-  username       String?     @unique
-  hashedPassword String?
-  image          String      @default("default_profile_vtwkjs")
-  restrictions   Restriction @default(EMPLOYEE)
-  verification   Boolean     @default(false)
-  assignedSiteId String?
-  assignedSite   Site?       @relation(fields: [assignedSiteId], references: [id])
-  assignedTicket Ticket[]
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  id               String      @id @default(cuid())
+  name             String?
+  username         String?     @unique
+  hashedPassword   String?
+  image            String      @default("default_profile_vtwkjs")
+  restrictions     Restriction @default(EMPLOYEE)
+  verification     Boolean     @default(false)
+  assignedSiteCode String?
+  assignedSite     Site?       @relation(fields: [assignedSiteCode], references: [siteCode])
+  assignedTicket   Ticket[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 }
 
 enum Restriction {
@@ -48,8 +48,10 @@ enum Restriction {
 
 model Site {
   id          String        @id @default(cuid())
+  siteCode    String        @unique @db.Char(4)
   siteName    String?
   location    String?
+  active      Boolean       @default(false)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   UserAccount UserAccount[]

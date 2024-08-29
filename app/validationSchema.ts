@@ -14,6 +14,12 @@ export const userSchema = z.object({
   password: z.string().min(1, "Password is required").max(100),
 });
 
+export const siteSchema = z.object({
+  siteCode: z.string().min(1, "Code is required").max(4).toUpperCase(),
+  siteName: z.string().min(1, "Site name is required").max(40),
+  location: z.string().min(1, "Location is required").max(50),
+});
+
 export const patchTicketSchema = z.object({
   title: z.string().min(1, "Title is required.").max(255).optional(),
   description: z
