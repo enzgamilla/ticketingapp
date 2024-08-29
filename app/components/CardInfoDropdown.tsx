@@ -5,7 +5,7 @@ import Link from "next/link";
 
 interface CloudinaryProps {
   user_name: string;
-  username?: string;
+  username: string;
   publicId: string;
 }
 
@@ -15,9 +15,6 @@ const cloudinary = new Cloudinary({
   },
 });
 
-const isGoogleImage = (url: string): boolean => {
-  return url.includes("googleusercontent.com");
-};
 const CardInfoDropdown = ({
   user_name: user_Name,
   username,
@@ -28,15 +25,11 @@ const CardInfoDropdown = ({
       <DropdownMenu.Root>
         <DropdownMenu.Trigger>
           <Flex gap="2" align="center">
-            {isGoogleImage(publicId) ? (
-              <Avatar src={publicId} fallback="?" size="3" />
-            ) : (
-              <Avatar
-                src={cloudinary.image(publicId).toURL()}
-                fallback="?"
-                size="3"
-              />
-            )}
+            <Avatar
+              src={cloudinary.image(publicId).toURL()}
+              fallback="?"
+              size="3"
+            />
             <Box className="select-none">
               <Text as="div" weight="bold" className="text-xs">
                 {user_Name}

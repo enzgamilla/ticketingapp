@@ -11,14 +11,14 @@ datasource db {
 }
 
 model Ticket {
-  id               Int      @id @default(autoincrement())
-  title            String   @db.VarChar(255)
-  description      String   @db.Text
-  status           Status   @default(OPEN)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  assignedToUserId String?  @db.VarChar(255)
-  assignedToUser   UserAccount?    @relation(fields: [assignedToUserId], references: [id])
+  id               Int          @id @default(autoincrement())
+  title            String       @db.VarChar(255)
+  description      String       @db.Text
+  status           Status       @default(OPEN)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  assignedToUserId String?      @db.VarChar(255)
+  assignedToUser   UserAccount? @relation(fields: [assignedToUserId], references: [id])
 }
 
 enum Status {
@@ -34,6 +34,8 @@ model UserAccount {
   image          String      @default("default_profile_vtwkjs")
   restrictions   Restriction @default(EMPLOYEE)
   verification   Boolean     @default(false)
+  assignedSiteId String?
+  assignedSite   Site?       @relation(fields: [assignedSiteId], references: [id])
   assignedTicket Ticket[]
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
@@ -42,4 +44,13 @@ model UserAccount {
 enum Restriction {
   ADMIN
   EMPLOYEE
+}
+
+model Site {
+  id          String        @id @default(cuid())
+  siteName    String?
+  location    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  UserAccount UserAccount[]
 }

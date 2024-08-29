@@ -13,14 +13,14 @@ import { Box, Separator } from "@radix-ui/themes";
 import CardInfoDropdown from "./components/CardInfoDropdown";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import prisma from "@/prisma/client";
+import { UserAccount } from "@prisma/client";
 
 interface Props {
   id: string;
 }
 
 const SideBar = ({ id }: Props) => {
-  const { data: users } = useQuery({
+  const { data: users } = useQuery<UserAccount>({
     queryKey: ["users", id],
     queryFn: () =>
       axios.get("/api/users/sessionUser/" + id).then((res) => res.data),
@@ -32,30 +32,45 @@ const SideBar = ({ id }: Props) => {
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
   if (isAuthPage) return null;
-  const links = [
-    {
-      icon: <DashboardIcon className="size-5" />,
-      label: "Dashboard",
-      href: "/",
-    },
-    {
-      icon: <ListBulletIcon className="size-5" />,
-      label: "Tickets",
-      href: "/tickets",
-    },
-    {
-      icon: <PersonIcon className="size-5" />,
-      label: "Users",
-      href: "/users",
-    },
-  ];
+  const links =
+    users?.restrictions === "ADMIN"
+      ? [
+          {
+            icon: <DashboardIcon className="size-5" />,
+            label: "Dashboard",
+            href: "/",
+          },
+          {
+            icon: <ListBulletIcon className="size-5" />,
+            label: "Tickets",
+            href: "/tickets",
+          },
+          {
+            icon: <PersonIcon className="size-5" />,
+            label: "Users",
+            href: "/users",
+          },
+        ]
+      : [
+          {
+            icon: <DashboardIcon className="size-5" />,
+            label: "Dashboard",
+            href: "/",
+          },
+          {
+            icon: <ListBulletIcon className="size-5" />,
+            label: "Tickets",
+            href: "/tickets",
+          },
+        ];
+
   return (
     <aside className="flex flex-col border-r bg-white">
       <Box py="5" pl="3">
         <CardInfoDropdown
-          user_name={users.name}
-          username={users.username}
-          publicId={users.image}
+          user_name={users?.name!}
+          username={users?.username!}
+          publicId={users?.image! || "default_profile_vtwkjs"}
         />
       </Box>
       <Separator size="4" />

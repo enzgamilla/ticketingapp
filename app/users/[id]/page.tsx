@@ -8,7 +8,9 @@ interface Props {
 }
 
 const UpdateUserPage = async ({ params }: Props) => {
-  const getUser = await prisma.user.findUnique({ where: { id: params.id } });
+  const getUser = await prisma.userAccount.findUnique({
+    where: { id: params.id },
+  });
 
   return <UpdateUserForm user={getUser!} />;
 };
