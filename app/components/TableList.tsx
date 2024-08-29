@@ -12,9 +12,9 @@ interface Props {
   headerList: { label: string; value: string }[];
   dataList: {
     id: string;
-    colOne: string;
-    colTwo: string;
-    colThree: string;
+    colOne?: string;
+    colTwo?: string;
+    colThree?: string;
     colFour?: string;
   }[];
   pagination: {
@@ -94,8 +94,8 @@ const TableList = ({
                 </CustomLink>
               </Table.Cell>
               <Table.Cell>
-                {checkColtwo(data.colTwo) ? (
-                  removeAt(data.colTwo)
+                {checkColtwo(data.colTwo!) ? (
+                  removeAt(data.colTwo!)
                 ) : (
                   <StatusBadge status={data.colTwo} />
                 )}

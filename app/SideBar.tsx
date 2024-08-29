@@ -8,6 +8,7 @@ import {
   DashboardIcon,
   ListBulletIcon,
   PersonIcon,
+  SewingPinIcon,
 } from "@radix-ui/react-icons";
 import { Box, Separator } from "@radix-ui/themes";
 import CardInfoDropdown from "./components/CardInfoDropdown";
@@ -49,6 +50,11 @@ const SideBar = ({ id }: Props) => {
             icon: <PersonIcon className="size-5" />,
             label: "Users",
             href: "/users",
+          },
+          {
+            icon: <SewingPinIcon className="size-5" />,
+            label: "Sites",
+            href: "/sites",
           },
         ]
       : [
