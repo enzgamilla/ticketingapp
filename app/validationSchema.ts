@@ -44,3 +44,9 @@ export const patchUserSchema = z.object({
     .max(8, "Username must be 8 characters or fewer."),
   verification: z.boolean(),
 });
+
+export const patchSiteSchema = z.object({
+  siteName: z.string().min(1, "Site name is required.").max(50),
+  location: z.string().min(1, "Location is required").max(200),
+  active: z.boolean(),
+});
