@@ -17,7 +17,7 @@ export async function PATCH(
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
 
-  const { name, username, verification } = body;
+  const { name, username, verification, assignedSiteCode, restrictions } = body;
 
   const updateUser = await prisma.userAccount.update({
     where: {
@@ -27,6 +27,8 @@ export async function PATCH(
       name,
       username,
       verification,
+      assignedSiteCode,
+      restrictions,
     },
   });
 
