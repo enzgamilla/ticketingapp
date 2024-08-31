@@ -1,19 +1,14 @@
-import dynamic from "next/dynamic";
-import TicketFormSkeleton from "./loading";
 import { Metadata } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/authOptions";
+import TicketForm from "../_components/TicketForm";
 
-const TicketForm = dynamic(
-  () => import("@/app/tickets/_components/TicketForm"),
-  {
-    ssr: false,
-    loading: () => <TicketFormSkeleton />,
-  }
-);
+const CreateTicketPage = async () => {
+  const session = await getServerSession(authOptions);
 
-const CreateTicketPage = () => {
   return (
     <div>
-      <TicketForm />
+      <TicketForm userId={session?.user.id} />
     </div>
   );
 };

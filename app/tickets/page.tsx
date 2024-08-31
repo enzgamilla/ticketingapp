@@ -2,6 +2,8 @@ import prisma from "@/prisma/client";
 import { Status, Ticket } from "@prisma/client";
 import { Metadata } from "next";
 import TableList from "../components/TableList";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/authOptions";
 
 interface Props {
   searchParams: {
@@ -12,7 +14,9 @@ interface Props {
   };
 }
 
-const IssuesPage = async ({ searchParams }: Props) => {
+const TicketPage = async ({ searchParams }: Props) => {
+  const session = await getServerSession(authOptions);
+
   const statuses = Object.values(Status);
 
   const status = statuses.includes(searchParams.status)
@@ -44,6 +48,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
 
   const columns: { label: string; value: keyof Ticket }[] = [
     { label: "Title", value: "title" },
+    { label: "Created by", value: "assignedToUserId" },
     { label: "Status", value: "status" },
     { label: "Created", value: "createdAt" },
   ];
@@ -54,29 +59,59 @@ const IssuesPage = async ({ searchParams }: Props) => {
     itemCount: ticketCount.length,
   };
 
-  const dataList: {
-    id: string;
-    colOne: string;
-    colTwo: string;
-    colThree: string;
-  }[] =
-    tickets?.map((ticket) => ({
-      id: ticket.id.toString(),
-      colOne: ticket.title,
-      colTwo: ticket.status,
-      colThree: ticket.createdAt.toDateString(),
-    })) || [];
+  const dataList = async (): Promise<
+    {
+      id: string;
+      idUser: string;
+      colOne?: string;
+      colTwo?: string;
+      colThree?: string;
+      colFour?: string;
+    }[]
+  > => {
+    if (!tickets) return [];
+
+    const dataPromise = tickets.map(async (ticket) => {
+      const userAccount = ticket.assignedToUserId
+        ? await prisma.userAccount.findUnique({
+            where: {
+              id: ticket.assignedToUserId,
+            },
+            select: {
+              id: true,
+              name: true,
+              assignedSiteCode: true,
+            },
+          })
+        : null;
+
+      return {
+        id: ticket.id.toString(),
+        idUser: userAccount?.id!,
+
+        colOne: ticket.title,
+        colTwo: `${userAccount?.name} - ${userAccount?.assignedSiteCode}` || "",
+        colThree: "#" + ticket.status,
+        colFour: ticket.createdAt.toDateString(),
+      };
+    });
+
+    return Promise.all(dataPromise);
+  };
+
+  const dataListResult = await dataList();
 
   return (
     <div className="space-y-3 p-3">
       <TableList
         pagination={pageProperties}
-        dataList={dataList}
+        dataList={dataListResult}
         headerList={columns}
         searchParams={searchParams}
         filter={true}
         labelAddBtn="Ticket"
         pathAddBtn="tickets"
+        currentSession={session?.user.id}
       />
     </div>
   );
@@ -89,4 +124,4 @@ export const metadata: Metadata = {
   description: "View all tickets",
 };
 
-export default IssuesPage;
+export default TicketPage;

@@ -10,8 +10,6 @@ export async function GET(
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({}, { status: 401 });
 
-  console.log(params.id);
-
   const users = await prisma.userAccount.findUnique({
     where: { id: params.id },
   });

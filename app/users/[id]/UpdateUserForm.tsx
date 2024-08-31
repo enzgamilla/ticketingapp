@@ -44,9 +44,7 @@ const UpdateUserForm = ({ user }: UserInfoProps) => {
       });
       route.push("/users");
       route.refresh();
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (

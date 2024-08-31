@@ -9,8 +9,8 @@ interface Props {
 
 const CustomLink = ({ href, children }: Props) => {
   return (
-    <NextLink href={href} passHref legacyBehavior>
-      <Link>{children}</Link>
+    <NextLink href={href} passHref legacyBehavior className="hover:underline">
+      <Link className="hover:underline">{children}</Link>
     </NextLink>
   );
 };

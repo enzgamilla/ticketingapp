@@ -39,9 +39,12 @@ export default async function RootLayout({
                     : { gridTemplateColumns: "1fr" }
                 }
               >
-                <ClientSessionProvider>
-                  <SideBar id={session?.user.id!} />
-                </ClientSessionProvider>
+                {session && (
+                  <ClientSessionProvider>
+                    <SideBar id={session?.user.id || ""} />
+                  </ClientSessionProvider>
+                )}
+
                 {children}
               </Grid>
             </Theme>

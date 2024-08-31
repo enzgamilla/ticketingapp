@@ -2,6 +2,8 @@ import { Box } from "@radix-ui/themes";
 import { Restriction, UserAccount } from "@prisma/client";
 import TableList from "../components/TableList";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/authOptions";
 
 interface Props {
   searchParams: {
@@ -12,6 +14,8 @@ interface Props {
 }
 
 const UserPage = async ({ searchParams }: Props) => {
+  const session = await getServerSession(authOptions);
+
   const page = parseInt(searchParams.page) || 1;
   const pageSize = 10;
 

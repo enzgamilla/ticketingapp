@@ -15,7 +15,13 @@ import { z } from "zod";
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
-const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
+const TicketForm = ({
+  ticket,
+  userId,
+}: {
+  ticket?: Ticket;
+  userId?: string;
+}) => {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
@@ -31,8 +37,10 @@ const TicketForm = ({ ticket }: { ticket?: Ticket }) => {
   const handleSubmitForm = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
+
       if (ticket) await axios.patch("/api/tickets/" + ticket.id, data);
-      else await axios.post("/api/tickets", data);
+      else
+        await axios.post("/api/tickets", { ...data, assignedToUserId: userId });
       router.push("/tickets");
       router.refresh();
     } catch (error) {

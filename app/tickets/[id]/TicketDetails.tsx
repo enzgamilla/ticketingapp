@@ -1,9 +1,21 @@
+"use client";
+
 import { StatusBadge } from "@/app/components";
 import { Ticket } from "@prisma/client";
 import { Card, Flex, Heading, Text } from "@radix-ui/themes";
+import { usePathname } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 
-const TicketDetails = ({ ticket }: { ticket: Ticket }) => {
+const TicketDetails = ({
+  ticket,
+  restriction,
+}: {
+  ticket: Ticket;
+  restriction?: string;
+}) => {
+  const pathNames = usePathname();
+  const isAuthPage = pathNames === "/auth/login";
+
   return (
     <>
       <Heading>{ticket?.title}</Heading>
