@@ -5,7 +5,7 @@ import FIlterStatus from "../tickets/FIlterStatus";
 import NextLink from "next/link";
 import Pagination from "./Pagination";
 import StatusBadge from "./StatusBadge";
-import { Ticket, UserAccount } from "@prisma/client";
+import { Site, Ticket, UserAccount } from "@prisma/client";
 import prisma from "@/prisma/client";
 import {
   checkAt,
@@ -31,7 +31,7 @@ interface Props {
     itemCount: number;
   };
   searchParams: {
-    orderBy: keyof Ticket | keyof UserAccount;
+    orderBy: keyof Ticket | keyof UserAccount | keyof Site;
     orderDirection: "asc" | "desc";
   };
   labelAddBtn: string;
