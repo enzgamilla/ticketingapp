@@ -7,6 +7,13 @@ import Pagination from "./Pagination";
 import StatusBadge from "./StatusBadge";
 import { Ticket, UserAccount } from "@prisma/client";
 import prisma from "@/prisma/client";
+import {
+  checkAt,
+  checkHashtag,
+  isValidDateString,
+  removeAt,
+  removeHashtag,
+} from "./StringFunctions";
 
 interface Props {
   headerList: { label: string; value: string }[];
@@ -43,7 +50,7 @@ const TableList = async ({
   filter,
   currentSession,
 }: Props) => {
-  const currentLoggedPosition = async (): Promise<{ restriction: string }> => {
+  const currentLogged = await (async (): Promise<{ restriction: string }> => {
     if (currentSession) {
       const user = await prisma.userAccount.findUnique({
         where: { id: currentSession },
@@ -56,8 +63,7 @@ const TableList = async ({
     }
 
     return { restriction: "" };
-  };
-  const currentLogged = await currentLoggedPosition();
+  })();
 
   return (
     <div className="space-y-3 p-3">
@@ -165,73 +171,6 @@ const TableList = async ({
       </Table.Root>
     </div>
   );
-};
-
-const isValidDateString = (text: string): boolean => {
-  // Regular expression to match the format "Day Mon DD YYYY"
-  const dateStringPattern = /^[A-Za-z]{3} [A-Za-z]{3} \d{2} \d{4}$/;
-
-  // Check if the text matches the pattern
-  if (!dateStringPattern.test(text)) {
-    return false;
-  }
-
-  // Further validate the date part
-  const [dayOfWeek, month, day, year] = text.split(" ");
-  const dayNumber = parseInt(day, 10);
-  const yearNumber = parseInt(year, 10);
-
-  // Check valid ranges and month names
-  const validDays = new Set(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
-  const validMonths = new Set([
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ]);
-
-  if (
-    !validDays.has(dayOfWeek) ||
-    !validMonths.has(month) ||
-    isNaN(dayNumber) ||
-    isNaN(yearNumber)
-  ) {
-    return false;
-  }
-
-  // Convert month name to number (0-based index)
-  const monthIndex = Array.from(validMonths).indexOf(month);
-
-  // Validate the date
-  const date = new Date(yearNumber, monthIndex, dayNumber);
-
-  return (
-    date.getFullYear() === yearNumber &&
-    date.getMonth() === monthIndex &&
-    date.getDate() === dayNumber
-  );
-};
-
-const checkAt = (colTwo: string): boolean => {
-  return colTwo.includes("@");
-};
-const removeAt = (colTwo: string) => {
-  return colTwo.replace("@", "");
-};
-
-const checkHashtag = (colTwo: string): boolean => {
-  return colTwo.includes("#");
-};
-const removeHashtag = (colTwo: string) => {
-  return colTwo.replace("#", "");
 };
 
 export default TableList;
