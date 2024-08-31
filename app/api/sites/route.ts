@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(validation.error.errors, { status: 400 });
 
   const site = await prisma.site.findUnique({
-    where: { siteCode: body.siteCode, siteName: body.siteName },
+    where: { siteCode: body.siteCode },
   });
 
   if (site)
