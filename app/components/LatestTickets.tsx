@@ -15,14 +15,30 @@ const isGoogleImage = (url: string): boolean => {
   return url.includes("googleusercontent.com");
 };
 
-const LatestIssue = async () => {
-  const tickets = await prisma.ticket.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 5,
-    include: {
-      assignedToUser: true,
-    },
-  });
+const LatestTickets = async ({
+  currentLoggedIn,
+  siteCode,
+}: {
+  currentLoggedIn: string;
+  siteCode: string;
+}) => {
+  const tickets =
+    currentLoggedIn === "ADMIN"
+      ? await prisma.ticket.findMany({
+          orderBy: { createdAt: "desc" },
+          take: 5,
+          include: {
+            assignedToUser: true,
+          },
+        })
+      : await prisma.ticket.findMany({
+          where: { siteCode },
+          orderBy: { createdAt: "desc" },
+          take: 5,
+          include: {
+            assignedToUser: true,
+          },
+        });
 
   return (
     <Card className="mx-4">
@@ -69,4 +85,4 @@ const LatestIssue = async () => {
 
 export const dynamic = "force-dynamic";
 
-export default LatestIssue;
+export default LatestTickets;

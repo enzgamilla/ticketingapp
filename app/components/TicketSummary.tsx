@@ -17,7 +17,7 @@ const TicketSummary = ({ open, closed, titleLabel }: Props) => {
   return (
     <>
       <Text className="text-center font-semibold" size="6">
-        Tickets of {titleLabel}
+        {titleLabel}
       </Text>
       <Flex gap="3" justify="center">
         {container.map((summary) => (

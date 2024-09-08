@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import TicketChart from "@/app/components/TicketChart";
 import { Flex, Grid } from "@radix-ui/themes";
 import TicketSummary from "@/app/components/TicketSummary";
-import LatestIssue from "@/app/components/LatestIssue";
+import LatestTickets from "@/app/components/LatestTickets";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/authOptions";
@@ -11,19 +11,33 @@ import { setEngine } from "crypto";
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  const open = await prisma.ticket.count({
-    where: {
-      status: "OPEN",
-      siteCode: session?.user.siteCode,
-    },
-  });
+  const open =
+    session?.user.role === "ADMIN"
+      ? await prisma.ticket.count({
+          where: {
+            status: "OPEN",
+          },
+        })
+      : await prisma.ticket.count({
+          where: {
+            status: "OPEN",
+            siteCode: session?.user.siteCode,
+          },
+        });
 
-  const closed = await prisma.ticket.count({
-    where: {
-      status: "CLOSED",
-      siteCode: session?.user.siteCode,
-    },
-  });
+  const closed =
+    session?.user.role === "ADMIN"
+      ? await prisma.ticket.count({
+          where: {
+            status: "CLOSED",
+          },
+        })
+      : await prisma.ticket.count({
+          where: {
+            status: "CLOSED",
+            siteCode: session?.user.siteCode,
+          },
+        });
 
   const sitesWithOpenTIckets = await prisma.site.findMany({
     select: {
@@ -57,10 +71,17 @@ export default async function Home() {
         <TicketSummary
           open={open}
           closed={closed}
-          titleLabel={session?.user.siteCode!}
+          titleLabel={
+            session?.user.role === "ADMIN"
+              ? "Number of Tickets for all sites"
+              : "Tickets of " + session?.user.siteCode
+          }
         />
       </Flex>
-      <LatestIssue />
+      <LatestTickets
+        currentLoggedIn={session?.user.role!}
+        siteCode={session?.user.siteCode!}
+      />
     </Grid>
   );
 }
