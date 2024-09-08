@@ -19,8 +19,6 @@ export async function PATCH(
 
   const { assignedToUserId, title, description, status } = body;
 
-  console.log(body);
-
   if (assignedToUserId) {
     const user = await prisma.userAccount.findUnique({
       where: { id: assignedToUserId },

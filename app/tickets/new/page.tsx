@@ -6,8 +6,6 @@ import TicketForm from "../_components/TicketForm";
 const CreateTicketPage = async () => {
   const session = await getServerSession(authOptions);
 
-  console.log(session);
-
   return (
     <div>
       <TicketForm
