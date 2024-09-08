@@ -21,10 +21,11 @@ export async function middleware(request: NextRequest) {
 
   const userRole = token?.role;
 
-  if (
-    pathname.startsWith("/sites") ||
-    (pathname.startsWith("/users") && userRole !== "ADMIN")
-  ) {
+  if (pathname.startsWith("/sites") && userRole !== "ADMIN") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (pathname.startsWith("/users") && userRole !== "ADMIN") {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
