@@ -3,7 +3,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { use } from "react";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -42,9 +41,7 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Your email & password does not match");
         }
 
-        return {
-          ...user,
-        };
+        return user;
       },
     }),
   ],
@@ -58,12 +55,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.restrictions;
+        token.siteCode = user.assignedSiteCode;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.sub as string; // Retrieve user ID from the token
+        session.user.siteCode = token.siteCode as string;
       }
       return session;
     },

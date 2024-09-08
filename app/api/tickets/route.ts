@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
       title: body.title,
       description: body.description,
       assignedToUserId: body.assignedToUserId,
+      siteCode: body.siteCode,
     },
   });
 

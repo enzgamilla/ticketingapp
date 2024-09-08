@@ -1,35 +1,37 @@
 "use client";
 
-import { Card } from "@radix-ui/themes";
+import { Card, Text } from "@radix-ui/themes";
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
 import React from "react";
 
+type ChartOpenTicket = {
+  label: string;
+  value: number;
+};
 interface Props {
-  open: number;
-
-  closed: number;
+  openTickets: ChartOpenTicket[];
 }
 
-const TicketChart = ({ open, closed }: Props) => {
-  const data = [
-    { label: "Open", value: open },
-    { label: "Closed", value: closed },
-  ];
-
+const TicketChart = ({ openTickets }: Props) => {
   return (
-    <Card>
-      <ResponsiveContainer width="100%" height={300}>
-        <BarChart data={data}>
-          <XAxis dataKey="label" />
-          <YAxis />
-          <Bar
-            dataKey="value"
-            barSize={60}
-            style={{ fill: "var(--accent-9)" }}
-          />
-        </BarChart>
-      </ResponsiveContainer>
-    </Card>
+    <>
+      <Text className="text-center font-semibold" size="6">
+        Open Tickets
+      </Text>
+      <Card>
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={openTickets}>
+            <XAxis dataKey="label" />
+            <YAxis allowDecimals={false} />
+            <Bar
+              dataKey="value"
+              barSize={60}
+              style={{ fill: "var(--accent-9)" }}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </Card>
+    </>
   );
 };
 

@@ -18,11 +18,27 @@ export default async function Home() {
     },
   });
 
+  const sitesWithOpenTIckets = await prisma.site.findMany({
+    select: {
+      siteCode: true,
+      _count: {
+        select: { Ticket: { where: { status: "OPEN" } } },
+      },
+    },
+  });
+
+  const charDataList = sitesWithOpenTIckets
+    .filter((res) => res._count.Ticket > 0)
+    .map((res) => ({
+      label: res.siteCode,
+      value: res._count.Ticket,
+    }));
+
   return (
     <Grid columns="2" gap="5" m="9">
       <Flex direction="column" gap="5">
+        <TicketChart openTickets={charDataList} />
         <TicketSummary open={open} closed={closed} />
-        <TicketChart open={open} closed={closed} />
       </Flex>
       <LatestIssue />
     </Grid>

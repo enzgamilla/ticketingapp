@@ -18,9 +18,11 @@ type TicketFormData = z.infer<typeof ticketSchema>;
 const TicketForm = ({
   ticket,
   userId,
+  assignedSite,
 }: {
   ticket?: Ticket;
   userId?: string;
+  assignedSite?: string;
 }) => {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -40,7 +42,11 @@ const TicketForm = ({
 
       if (ticket) await axios.patch("/api/tickets/" + ticket.id, data);
       else
-        await axios.post("/api/tickets", { ...data, assignedToUserId: userId });
+        await axios.post("/api/tickets", {
+          ...data,
+          assignedToUserId: userId,
+          siteCode: assignedSite,
+        });
       router.push("/tickets");
       router.refresh();
     } catch (error) {

@@ -19,6 +19,8 @@ model Ticket {
   updatedAt        DateTime     @updatedAt
   assignedToUserId String?      @db.VarChar(255)
   assignedToUser   UserAccount? @relation(fields: [assignedToUserId], references: [id])
+  siteCode         String?      @db.Char(4)
+  site             Site?        @relation(fields: [siteCode], references: [siteCode])
 }
 
 enum Status {
@@ -55,4 +57,5 @@ model Site {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   UserAccount UserAccount[]
+  Ticket      Ticket[]
 }

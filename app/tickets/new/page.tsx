@@ -6,9 +6,14 @@ import TicketForm from "../_components/TicketForm";
 const CreateTicketPage = async () => {
   const session = await getServerSession(authOptions);
 
+  console.log(session);
+
   return (
     <div>
-      <TicketForm userId={session?.user.id} />
+      <TicketForm
+        userId={session?.user.id}
+        assignedSite={session?.user.siteCode}
+      />
     </div>
   );
 };

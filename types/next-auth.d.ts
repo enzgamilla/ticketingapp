@@ -8,18 +8,20 @@ import { DefaultSession, DefaultToken } from "next-auth";
 declare module "next-auth" {
   interface User {
     restrictions: Restriction;
+    assignedSiteCode: string;
   }
   interface Session {
     user: {
       id?: string; // Add user ID if it's optional
       name?: string;
       image?: string;
-      role?: Restriction;
+      siteCode?: string;
     } & DefaultSession["user"];
   }
 
   interface Token {
     id?: string; // Add token ID if it's optional
     role?: Restriction;
+    siteCode?: string;
   }
 }
