@@ -1,12 +1,13 @@
 import prisma from "@/prisma/client";
-import { Box, Card, Flex } from "@radix-ui/themes";
-import DeleteIssueButton from "./DeleteIssueButton";
-import EditIssueButton from "./EditIssueButton";
+import { Box, Button, Card, Flex } from "@radix-ui/themes";
+import DeleteTicketButton from "./DeleteTicketButton";
+import EditTicketButton from "./EditTicketButton";
 import TicketDetails from "./TicketDetails";
-import AssigneeSelectUser from "./AssigneeSelectUser";
 import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
+import CloseTicketButton from "./CloseTicketButton";
 
 interface Props {
   params: { id: string };
@@ -20,7 +21,6 @@ const getUser = cache(async (ticketId: number) => {
 
 const TicketPage = async ({ params }: Props) => {
   const ticket = await getUser(parseInt(params.id));
-
   const session = await getServerSession(authOptions);
 
   const currentLogged = await prisma.userAccount.findUnique({
@@ -41,8 +41,12 @@ const TicketPage = async ({ params }: Props) => {
           </Box>
           <Box>
             <Flex gap="2">
-              <EditIssueButton ticketId={ticket?.id!} />
-              <DeleteIssueButton ticketId={ticket?.id!} />
+              <EditTicketButton ticketId={ticket?.id!} />
+              <DeleteTicketButton ticketId={ticket?.id!} />
+              {currentLogged?.restrictions === "ADMIN" &&
+                ticket?.status === "OPEN" && (
+                  <CloseTicketButton ticketId={ticket?.id!} />
+                )}
             </Flex>
           </Box>
         </Flex>

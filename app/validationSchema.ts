@@ -34,6 +34,7 @@ export const patchTicketSchema = z.object({
     .max(255)
     .optional()
     .nullable(),
+  status: z.string().min(1).max(20).optional(),
 });
 
 export const patchUserSchema = z.object({

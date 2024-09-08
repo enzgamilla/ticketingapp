@@ -7,7 +7,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const DeleteIssueButton = ({ ticketId }: { ticketId: number }) => {
+const DeleteTicketButton = ({ ticketId }: { ticketId: number }) => {
   const router = useRouter();
   const [error, setError] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -85,4 +85,4 @@ const DeleteIssueButton = ({ ticketId }: { ticketId: number }) => {
   );
 };
 
-export default DeleteIssueButton;
+export default DeleteTicketButton;
