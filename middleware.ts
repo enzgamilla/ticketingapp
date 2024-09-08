@@ -8,6 +8,8 @@ export async function middleware(request: NextRequest) {
   // Get the token from the request cookies
   const token = await getToken({ req: request, secret });
 
+  const { pathname } = request.nextUrl;
+
   // If the token is not present, redirect to the login page
   if (
     !token &&
@@ -15,6 +17,15 @@ export async function middleware(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/auth/singup")
   ) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
+  }
+
+  const userRole = token?.role;
+
+  if (
+    pathname.startsWith("/sites") ||
+    (pathname.startsWith("/users") && userRole !== "ADMIN")
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // Allow access to the requested page if authenticated

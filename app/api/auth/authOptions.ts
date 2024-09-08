@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { use } from "react";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -42,11 +43,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         return {
-          id: user.id,
-          name: user.name!,
-          username: user.username!,
-          restriction: user.restrictions,
-          image: user.image,
+          ...user,
         };
       },
     }),
@@ -60,7 +57,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.sub = user.id; // Add user ID to the token
+        token.role = user.restrictions;
       }
       return token;
     },
