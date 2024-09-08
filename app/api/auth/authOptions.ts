@@ -1,5 +1,6 @@
 import prisma from "@/prisma/client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { Restriction } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -56,6 +57,8 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.role = user.restrictions;
         token.siteCode = user.assignedSiteCode;
+        token.restrictions = user.restrictions;
+        token.username = user.username;
       }
       return token;
     },
@@ -63,6 +66,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.sub as string; // Retrieve user ID from the token
         session.user.siteCode = token.siteCode as string;
+        session.user.role = token.restrictions as Restriction;
+        session.user.username = token.username as string;
       }
       return session;
     },

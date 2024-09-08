@@ -41,7 +41,12 @@ export default async function RootLayout({
               >
                 {session && (
                   <ClientSessionProvider>
-                    <SideBar id={session?.user.id || ""} />
+                    <SideBar
+                      name={session.user.name!}
+                      username={session.user.username!}
+                      publicId={session.user.image!}
+                      role={session.user.role!}
+                    />
                   </ClientSessionProvider>
                 )}
 

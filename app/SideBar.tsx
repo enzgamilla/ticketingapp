@@ -12,29 +12,22 @@ import {
 } from "@radix-ui/react-icons";
 import { Box, Separator } from "@radix-ui/themes";
 import CardInfoDropdown from "./components/CardInfoDropdown";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { UserAccount } from "@prisma/client";
+import { Restriction } from "@prisma/client";
 
 interface Props {
-  id: string;
+  name: string;
+  username: string;
+  publicId: string;
+  role: Restriction;
 }
 
-const SideBar = ({ id }: Props) => {
-  const { data: users } = useQuery<UserAccount>({
-    queryKey: ["users", id],
-    queryFn: () =>
-      axios.get("/api/users/sessionUser/" + id).then((res) => res.data),
-    staleTime: 60 * 1000,
-    retry: 3,
-  });
-
+const SideBar = ({ username, name, publicId, role }: Props) => {
   const pathNames = usePathname();
   const isAuthPage =
     pathNames === "/auth/login" || pathNames === "/auth/singup"; // Adjust as needed
   if (isAuthPage) return null;
   const links =
-    users?.restrictions === "ADMIN"
+    role === "ADMIN"
       ? [
           {
             icon: <DashboardIcon className="size-5" />,
@@ -74,9 +67,9 @@ const SideBar = ({ id }: Props) => {
     <aside className="flex flex-col border-r bg-white">
       <Box py="5" pl="3">
         <CardInfoDropdown
-          user_name={users?.name!}
-          username={users?.username!}
-          publicId={users?.image! || "default_profile_vtwkjs"}
+          user_name={name}
+          username={username}
+          publicId={publicId}
         />
       </Box>
       <Separator size="4" />
