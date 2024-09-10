@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import React from "react";
 import UpdateSiteForm from "./UpdateSiteForm";
 
-const NewSitePage = async ({ params }: { params: { id: string } }) => {
+const UpdateSitePage = async ({ params }: { params: { id: string } }) => {
   const siteDetails = await prisma.site.findUnique({
     where: { id: params.id },
   });
@@ -10,4 +10,4 @@ const NewSitePage = async ({ params }: { params: { id: string } }) => {
   return <UpdateSiteForm site={siteDetails!} />;
 };
 
-export default NewSitePage;
+export default UpdateSitePage;

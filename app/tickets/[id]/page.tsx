@@ -6,7 +6,6 @@ import TicketDetails from "./TicketDetails";
 import { cache } from "react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
-import { CheckCircledIcon } from "@radix-ui/react-icons";
 import CloseTicketButton from "./CloseTicketButton";
 
 interface Props {
@@ -19,7 +18,7 @@ const getUser = cache(async (ticketId: number) => {
   });
 });
 
-const TicketPage = async ({ params }: Props) => {
+const UpdateTicketPage = async ({ params }: Props) => {
   const ticket = await getUser(parseInt(params.id));
   const session = await getServerSession(authOptions);
 
@@ -64,4 +63,4 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default TicketPage;
+export default UpdateTicketPage;

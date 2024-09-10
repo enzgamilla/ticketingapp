@@ -21,7 +21,7 @@ import { z } from "zod";
 
 type TicketFormData = z.infer<typeof siteSchema>;
 
-const page = () => {
+const NewSitePage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -116,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default NewSitePage;
