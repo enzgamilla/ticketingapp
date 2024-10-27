@@ -59,4 +59,3 @@ model Site {
   UserAccount UserAccount[]
   Ticket      Ticket[]
 }
-
