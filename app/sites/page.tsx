@@ -3,6 +3,7 @@ import React from "react";
 import TableList from "../components/TableList";
 import prisma from "@/prisma/client";
 import { Site } from "@prisma/client";
+import AddBtn from "@/app/components/AddBtn";
 
 interface Props {
   searchParams: {
@@ -62,7 +63,8 @@ const SitePage = async ({ searchParams }: Props) => {
     })) || [];
 
   return (
-    <Box>
+    <Box p="5">
+      <AddBtn label={"Site"} path={"sites"} />
       <TableList
         dataList={dataList}
         headerList={columns}

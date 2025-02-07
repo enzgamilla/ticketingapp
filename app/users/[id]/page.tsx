@@ -11,7 +11,7 @@ const UpdateUserPage = async ({ params }: Props) => {
   const getUser = await prisma.userAccount.findUnique({
     where: { id: params.id },
   });
-
+  console.log(params);
   return <UpdateUserForm user={getUser!} />;
 };
 

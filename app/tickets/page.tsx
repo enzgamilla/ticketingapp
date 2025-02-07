@@ -1,9 +1,10 @@
 import prisma from "@/prisma/client";
 import { Status, Ticket } from "@prisma/client";
 import { Metadata } from "next";
-import TableList from "../components/TableList";
+import TableList from "@/app/components/TableList";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/authOptions";
+import AddBtn from "@/app/components/AddBtn";
 
 interface Props {
   searchParams: {
@@ -103,6 +104,7 @@ const TicketPage = async ({ searchParams }: Props) => {
 
   return (
     <div className="space-y-3 p-3">
+      <AddBtn label={"Ticket"} path={"tickets"} />
       <TableList
         pagination={pageProperties}
         dataList={dataListResult}

@@ -4,16 +4,14 @@ import * as bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Check if any users exist
   const userCount = await prisma.userAccount.count();
-
+  // Check if any users exist
   if (userCount === 0) {
-    // No users found, create an admin user
     const hashedPassword = await bcrypt.hash("admin", 10); // Securely hash the password
 
     await prisma.userAccount.create({
       data: {
-        username: "admin",
+        username: "@admin",
         name: "admin",
         hashedPassword: hashedPassword,
         restrictions: "ADMIN",

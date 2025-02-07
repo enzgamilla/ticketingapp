@@ -7,7 +7,7 @@ interface Props {
   path: string;
 }
 
-const AddIssueBtn = ({ label, path }: Props) => {
+const AddBtn = ({ label, path }: Props) => {
   return (
     <div>
       <Button>
@@ -17,4 +17,4 @@ const AddIssueBtn = ({ label, path }: Props) => {
   );
 };
 
-export default AddIssueBtn;
+export default AddBtn;

@@ -1,6 +1,6 @@
 import { ArrowUpIcon, ArrowDownIcon } from "@radix-ui/react-icons";
 import { Dialog, Flex, Table, Link } from "@radix-ui/themes";
-import AddIssueBtn from "../tickets/AddIssueBtn";
+import AddBtn from "./AddBtn";
 import FIlterStatus from "../tickets/FIlterStatus";
 import NextLink from "next/link";
 import Pagination from "./Pagination";
@@ -74,7 +74,6 @@ const TableList = async ({
           currentPage={pagination.currentPage}
           itemCount={pagination.itemCount}
         />
-        <AddIssueBtn label={labelAddBtn} path={pathAddBtn} />
       </Flex>
       <Table.Root variant="surface">
         <Table.Header>

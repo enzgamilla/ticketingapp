@@ -50,6 +50,7 @@ const UpdateUserForm = ({ user }: UserInfoProps) => {
   const handleUpdateInfo = async (data: UserInfo) => {
     try {
       setSubmitting(true);
+
       await axios.patch(`/api/users/${user.id}`, {
         ...data,
         verification: activate,
